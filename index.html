@@ -309,7 +309,7 @@ table.t2t .u b{font-size:13.5px}
           <button class="ctl" id="zRst">Reset</button>
         </div>
       </div>
-      <div class="stage"><canvas id="space"></canvas><span class="hint">drag to rotate</span></div>
+      <div class="stage"><canvas id="space"></canvas><span class="hint" id="dragHint">drag to rotate · scroll to zoom</span></div>
       <div class="legend">
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--mla);stroke-width:2"/></svg> MLA</span>
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--leg);stroke-width:2"/></svg> Legion</span>
@@ -635,6 +635,7 @@ const U=[
   const cv=document.getElementById('space'),ctx=cv.getContext('2d');
   const imgs={}; U.forEach(u=>{const im=new Image();im.onload=draw;im.src=ICONS[u.k];imgs[u.k]=im;});
   let az=-0.62,el_=0.44,W=0,H=0,dpr=1,hideLR=false,tier='all',mode='s',zoom=1;
+  let view='free',panX=0,panY=0;
   const LO=Math.log10(0.008),HI=Math.log10(9),SPAN=HI-LO;
   /* proposed value if present, else shipped. spd is always base speed. */
   const V=(u,f)=>(mode==='p'&&u.p&&u.p[f]!==undefined)?u.p[f]:u[f];
@@ -647,7 +648,7 @@ const U=[
     const X=x-.5,Y=y-.5,Z=z-.5,ca=Math.cos(az),sa=Math.sin(az);
     const x1=X*ca-Y*sa,y1=X*sa+Y*ca,ce=Math.cos(el_),se=Math.sin(el_);
     const S=Math.min(W,H)*.72*zoom;
-    return{sx:W/2+x1*S,sy:H/2+(-Z*ce+y1*se)*S,d:y1*ce+Z*se};
+    return{sx:W/2+panX+x1*S,sy:H/2+panY+(-Z*ce+y1*se)*S,d:y1*ce+Z*se};
   }
   function resize(){dpr=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
     cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
@@ -704,15 +705,25 @@ const U=[
   let dragging=false,lx=0,ly=0;
   cv.addEventListener('pointerdown',e=>{dragging=true;cv.classList.add('drag');lx=e.clientX;ly=e.clientY;});
   window.addEventListener('pointermove',e=>{if(!dragging)return;
-    az+=(e.clientX-lx)*.008;el_+=(e.clientY-ly)*.006;   /* unbounded on both axes */
-    lx=e.clientX;ly=e.clientY;setView(null);draw();if(e.cancelable)e.preventDefault();});
+    const dx=e.clientX-lx,dy=e.clientY-ly;
+    if(view==='free'){ az+=dx*.008; el_+=dy*.006; }   /* unbounded on both axes */
+    else { panX+=dx; panY+=dy; }                      /* locked to a face: pan only */
+    lx=e.clientX;ly=e.clientY;draw();if(e.cancelable)e.preventDefault();});
   window.addEventListener('pointerup',()=>{dragging=false;cv.classList.remove('drag');});
-  function setView(n){document.querySelectorAll('[data-view]').forEach(b=>
-    b.setAttribute('aria-pressed',String(b.dataset.view===n)));}
+  function setView(n){
+    view=n; panX=0; panY=0;                            /* every view change recentres */
+    document.querySelectorAll('[data-view]').forEach(b=>
+      b.setAttribute('aria-pressed',String(b.dataset.view===n)));
+    const hn=document.getElementById('dragHint');
+    if(hn) hn.textContent=(n==='free'?'drag to rotate · scroll to zoom'
+                                     :'drag to pan · scroll to zoom');
+    cv.style.cursor=(n==='free'?'grab':'move');
+  }
   document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{
     const v=b.dataset.view;
     if(v==='sp'){az=0;el_=0;}else if(v==='rp'){az=-Math.PI/2;el_=0;}
-    else if(v==='sr'){az=0;el_=Math.PI/2-.02;}else{az=-.62;el_=.44;}
+    else if(v==='sr'){az=0;el_=Math.PI/2-.02;}
+    else{az=-.62;el_=.44;zoom=1;}                      /* Free = full reset */
     setView(v);draw();}));
   document.querySelectorAll('[data-tier]').forEach(b=>b.addEventListener('click',()=>{
     tier=b.dataset.tier;
