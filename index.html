@@ -405,7 +405,7 @@ const FAC=[
 {f:'mla',name:'MLA — Bot Factory',sub:'raid · refuse fights',
  doc:'Splash lives here: <b>Spark and Boom</b>. This line answers <b>Legion bots</b>.',
  rows:[
- ['assault_bot','Dox','T1','hold','The design anchor — everything else is positioned against it. No change.'],
+ ['assault_bot','Dox','T1','tweak','<b>Rate of fire 0.9 → 1.0</b> (dps 18 → 20). The design anchor — everything else is positioned against it.'],
  ['bot_bomb','Boom','T1','hold','Becomes T1 bots\' Inferno answer once Spark\'s dps drops. 600 dmg = <b>Maul\'s exact HP</b>.'],
  ['bot_tesla','Spark','T1','rework','<b>Anti-swarm only.</b> 160 → 90 damage, <b>range 67.5 → 80</b>, 2 s reload kept, splash unchanged. Loses the anti-Inferno job — that was the second role.'],
  ['bot_grenadier','Grenadier','T1','hold','<b>Attrition artillery.</b> 135° arc = can\'t fire retreating. No stat change.'],
@@ -593,7 +593,7 @@ const T2=[
    idx = hp/metal x SUSTAINED dps/metal.  spd is always BASE speed — combat-speed
    modifiers are deliberately not applied.  p:{} holds the proposed values.        */
 const U=[
- {k:'assault_bot',n:'Dox',f:'mla',c:'bot',t:1,spd:20,rng:75,idx:0.356},
+ {k:'assault_bot',n:'Dox',f:'mla',c:'bot',t:1,spd:20,rng:75,idx:0.356,p:{idx:0.395}},
  {k:'bot_bomb',n:'Boom',f:'mla',c:'bot',t:1,spd:40,rng:10,idx:null},
  {k:'bot_tesla',n:'Spark',f:'mla',c:'bot',t:1,spd:14,rng:67.5,idx:0.943,
    p:{rng:80,idx:0.531}},
