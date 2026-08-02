@@ -412,7 +412,7 @@ const FAC=[
  ['bot_aa','Stinger','T1','defer','Air rework.'],
  ['assault_bot_adv','Slammer','T2','rework','<b>Assault.</b> 400 hp, 120 @ rof 3, r100, spd 18 → 8 while firing. Gun deliberately unremarkable — every target class is taken.'],
  ['bot_sniper','Gil-E','T2','rework','<b>Ground sniper / counter-artillery.</b> Loses air targeting. r200 → <b>220</b>, spd 12 → <b>14</b>, <b>half speed while firing</b>. 600 @ rof 0.2 retained.'],
- ['bot_tactical_missile','Bluehawk','T2','rework','<b>Now anti-air.</b> Targets Air + Orbital instead of Land/Sea. Leaves the ground roster entirely; the kiting problem goes with it.'],
+ ['bot_tactical_missile','Bluehawk','T2','undecided','Role unsettled. Candidate: drop Land/Sea for Air + Orbital, which would remove it from the ground roster and take the kiting problem with it.'],
  ['bot_nanoswarm','Locusts','T2','hold','No change.']]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sub:'layered line · wins fights it can\'t avoid',
@@ -606,9 +606,7 @@ const U=[
    p:{spd:18,rng:100,idx:0.576}},
  {k:'bot_sniper',n:'Gil-E',f:'mla',c:'bot',t:2,spd:12,rng:200,idx:0.028,lr:1,
    p:{spd:14,rng:220}},
- /* Bluehawk becomes Air+Orbital only -> leaves the ground roster in Proposed. */
- {k:'bot_tactical_missile',n:'Bluehawk',f:'mla',c:'bot',t:2,spd:12,rng:160,idx:0.171,lr:1,
-   p:{aa:1}},
+ {k:'bot_tactical_missile',n:'Bluehawk',f:'mla',c:'bot',t:2,spd:12,rng:160,idx:0.171,lr:1,und:1},
  {k:'bot_nanoswarm',n:'Locusts',f:'mla',c:'bot',t:2,spd:30,rng:30,idx:0.128},
  {k:'tank_laser_adv',n:'Leveler',f:'mla',c:'tank',t:2,spd:10,rng:120,idx:1.016,
    p:{idx:0.762}},
