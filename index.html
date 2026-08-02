@@ -444,7 +444,7 @@ const FAC=[
  ['l_bot_artillery_adv','Monstrosity','T2','tweak','<b>Extremely durable.</b> Forces engagements with medium-long range and medium-high speed. Turn 45 → 90.'],
  ['l_necromancer','Necromancer','T2','rework','<b>Revives dead units from wreckages</b>, and periodically spawns Purgers.'],
  ['l_bot_aa_adv','Orbweaver','T2','tweak','<b>Long-range, high-damage, no-AoE lasers.</b>'],
- ['l_bot_support_commander','Praetorian','T2','rework','<b>T2.5 heavy assault bot, no AA.</b>']]},
+ ['l_bot_support_commander','Praetorian','T2','rework','<b>T2.5 heavy assault bot, no AA.</b> spd 16 · 6000 hp + 6000 shield @ 250/s · 2 × 800 dmg @ rof 0.5, r130.']]},
 
 {f:'leg',name:'Legion — Armour Foundry',sub:'anti-bot · splash',
  doc:'<b>Splash on every unit.</b> This line answers <b>MLA bots</b> — the job Legion\'s bots can\'t do.',
@@ -625,6 +625,9 @@ const U=[
  {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,idx:1.235},
  {k:'l_bot_artillery',n:'Miniman',f:'leg',c:'bot',t:2,spd:10,rng:220,idx:0.188,lr:1,und:1},
  {k:'l_bot_artillery_adv',n:'Monstrosity',f:'leg',c:'bot',t:2,spd:15,rng:140,idx:0.457},
+ /* Praetorian: proposed idx uses 6000 hp + 6000 shield = 12000 effective pool. */
+ {k:'l_bot_support_commander',n:'Praetorian',f:'leg',c:'bot',t:2,spd:12,rng:110,idx:0.065,
+   p:{spd:16,rng:130,idx:0.196}},
  {k:'l_tank_swarm',n:'Havoc',f:'leg',c:'tank',t:2,spd:15,rng:115,idx:0.703,
    p:{idx:0.352}},
  {k:'l_tank_laser_adv',n:'Scorpion',f:'leg',c:'tank',t:2,spd:8,rng:130,idx:0.744,und:1},
