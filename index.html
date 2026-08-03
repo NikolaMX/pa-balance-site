@@ -567,13 +567,17 @@ const SYN=[
  {b:{u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
    w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r105 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>.'},
   a:{u:['l_shotgun_tank','l_tank_shank','l_tank_laser_adv'],n:'+ Scorpion',
-   w:'Adds reach the pair does not have — <b>750 alpha at r130</b> removes a heavy before the lines meet. It cannot change its mind afterwards: speed 8 and a <b>3.3 s reversal</b>, so it needs the pair standing in front of it.'}},
+   w:'Adds reach the pair does not have — <b>750 alpha at r130</b> removes a heavy before the lines meet. It cannot change its mind afterwards: speed 8 and a <b>3.3 s reversal</b>, so it needs the pair standing in front of it.'}}]},
+
+{f:'leg',name:'Legion — Cross-factory',sets:[
  {b:{u:['l_attack_vehicle','l_bot_bomb'],n:'Predator + Purger',
    w:'Legion finally has a raid. <b>Both move at speed 30</b> — Predator beams at r60, Purger leaps 100 into whatever Predator has already latched onto. Nothing else in the faction can arrive, commit and leave.'},
   a:{u:['l_attack_vehicle','l_bot_bomb','l_tank_swarm'],n:'+ Havoc',
-   w:'The pair arrives at speed 30 and fights at point-blank — Predator at r60, Purger on contact — so anything holding a second rank is untouchable. Havoc adds <b>r115 and a chain that jumps four times</b>, reaching the whole rank behind whatever the raid ran into. At <b>speed 15</b> it does not arrive with them; it is the follow-up that makes the raid worth repeating.'}}]},
+   w:'The pair arrives at speed 30 and fights at point-blank — Predator at r60, Purger on contact — so anything holding a second rank is untouchable. Havoc adds <b>r115 and a chain that jumps four times</b>, reaching the whole rank behind whatever the raid ran into. At <b>speed 15</b> it does not arrive with them; it is the follow-up that makes the raid worth repeating.'}}]}];
 
-{f:'x',name:'Cross-factory',sets:[
+/* MLA's cross-factory pairings sit directly under MLA's two factory panels, so each
+   faction's bot / vehicle / cross-factory sections stay together.                  */
+SYN.splice(2,0,{f:'mla',name:'MLA — Cross-factory',sets:[
  {b:{u:['bot_grenadier','tank_armor','tank_light_laser'],n:'Grenadier + Inferno + Ant',
    w:'Grenadier at <b>r140</b> makes standing still unproductive, so the enemy has to come — and Inferno + Ant is the trap that punishes arriving. Grenadier’s <b>135° arc means it cannot fire while retreating</b>, which is exactly why it wants a line that never retreats.'},
   a:{u:['bot_grenadier','tank_armor','tank_light_laser','tank_laser_adv'],n:'+ Leveler',
@@ -581,7 +585,7 @@ const SYN=[
  {b:{u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
    w:'Spark screens at r80 with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can.'},
   a:{u:['tank_hover','bot_tesla','assault_bot_adv'],n:'+ Slammer',
-   w:'Both T1 units are short-ranged and fragile per body, so the pair can only react. Slammer adds a <b>400 hp body at speed 18</b> that can lead the engagement instead of following it.'}}]}];
+   w:'Both T1 units are short-ranged and fragile per body, so the pair can only react. Slammer adds a <b>400 hp body at speed 18</b> that can lead the engagement instead of following it.'}}]});
 (function(){
   const box=document.getElementById('syns'); if(!box) return;
   const tiles=arr=>arr.map(k=>`<span class="tile${T2SET.has(k)?' t2':''}"><img src="${ICONS[k]||''}" alt=""></span>`)
