@@ -290,8 +290,8 @@ table.t2t .u b{font-size:13.5px}
       <div class="frame-bar">
         <span class="frame-title">28 ground-attack units</span>
         <div class="ctl-group">
-          <button class="ctl" data-mode="s" aria-pressed="false">Shipped</button>
-          <button class="ctl warn" data-mode="p" aria-pressed="true">Proposed</button>
+          <button class="ctl warn" data-mode="s" aria-pressed="false">Old</button>
+          <button class="ctl" data-mode="p" aria-pressed="true">Proposed</button>
           <span class="ctl-sep"></span>
           <button class="ctl warn" id="lrBtn" aria-pressed="false">Hide long range</button>
           <span class="ctl-sep"></span>
@@ -315,7 +315,7 @@ table.t2t .u b{font-size:13.5px}
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--leg);stroke-width:2"/></svg> Legion</span>
         <span class="lg"><svg width="14" height="12"><rect x="1" y="1" width="10" height="10" rx="2" style="fill:none;stroke:var(--dim);stroke-width:1.6"/></svg> bot</span>
         <span class="lg"><svg width="14" height="12"><circle cx="6" cy="6" r="5.4" style="fill:none;stroke:var(--dim);stroke-width:1.6"/></svg> tank</span>
-        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> changed by the proposal</span>
+        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> old value — differs from the proposal</span>
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--danger);stroke-width:2.6"/></svg> role undecided</span>
         <span class="lg">power axis is log · <b>sustained</b> dps, never burst · <b>base</b> speed, modifiers not applied · <b>anti-land</b> range only</span>
       </div>
@@ -561,7 +561,7 @@ const WHY={
 
 /* ===== T2 capability deltas ===== */
 const T2=[
- ['assault_bot_adv','Slammer','mla','MLA bots','A body nothing one-shots — 5 shots from Shank, 7 from Ant, 2 from Leveler','Lets the bot line advance into alpha-heavy defence instead of only raiding','proj'],
+ ['assault_bot_adv','Slammer','mla','MLA bots','Provide DPS and survivability','Lets the bot line advance into alpha-heavy defence instead of only raiding','proj'],
  ['bot_tactical_missile','Bluehawk','mla','MLA bots','Counter-battery, and <b>ignore_shields</b> at r160','The only MLA answer to an Earthshaker bubble — Sheller loses to its 300 regen/s','est'],
  ['bot_sniper','Gil-E','mla','MLA bots','Deletes one 400–600 hp unit per 5 s from r200','Removes Enforcer, Havoc, Orbweaver or Maul from a fight before it starts','proj'],
  ['tank_laser_adv','Leveler','mla','MLA tanks','Kills 2000 hp+ armour — the T1 line tops out at Inferno\'s 400 dps at r20','Scorpion, Earthshaker and Monstrosity become killable','proj'],
@@ -644,7 +644,7 @@ const U=[
   const LO=Math.log10(0.008),HI=Math.log10(9),SPAN=HI-LO;
   /* proposed value if present, else shipped. spd is always base speed. */
   const V=(u,f)=>(mode==='p'&&u.p&&u.p[f]!==undefined)?u.p[f]:u[f];
-  const chg=u=>mode==='p'&&!!u.p;
+  const chg=u=>mode==='s'&&!!u.p;   /* amber marks changed units in the Old view */
   const shown=()=>U.filter(u=>(!hideLR||!u.lr)&&(tier==='all'||u.t==+tier)&&!(mode==='p'&&u.p&&u.p.aa));
   const rngMax=()=>Math.max(...shown().map(u=>V(u,'rng')))>140?260:140;
   const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
