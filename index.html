@@ -394,7 +394,9 @@ table.t2t .u b{font-size:13.5px}
       <div class="card">
         <h3>Mirrored splash placement</h3><p class="role">the faction structure</p>
         <p>MLA puts splash on <b>bots</b> and pure alpha on <b>tanks</b>. Legion does the reverse.
-           Splash is anti-body, alpha is anti-armour — so each line is aimed at the opposite chassis.</p>
+           Splash is anti-body, alpha is anti-armour — so each line is aimed at the opposite chassis.
+           <b>Predator is now the one exception</b> — its splash was removed, so Legion's vehicle
+           line is no longer splash on every unit.</p>
       </div>
     </div>
   </section>
@@ -442,7 +444,7 @@ const ICONS={"bot_support_commander":"data:image/png;base64,iVBORw0KGgoAAAANSUhE
 
 const FAC=[
 {f:'mla',name:'MLA — Bot Factory',sub:'raid · refuse fights',
- doc:'Splash lives here: <b>Spark and Boom</b>. This line answers <b>Legion bots</b>.',
+ doc:'<b>Fast, specialised units built for gaining map control.</b>',
  rows:[
  ['assault_bot','Dox','T1','tweak','<b>Flexible swarm raider and fodder.</b> Rate of fire 0.9 → 1.0 (dps 18 → 20). The design anchor — everything else is positioned against it.'],
  ['bot_bomb','Boom','T1','hold','<b>Utility and attack of opportunity unit.</b>'],
@@ -456,22 +458,22 @@ const FAC=[
  ['bot_support_commander','Colonel','T2','tweak','<b>Explodes with a commander nuke on death.</b>']]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sub:'layered line · wins fights it can\'t avoid',
- doc:'<b>Zero splash anywhere</b> — pure alpha. This line answers <b>Legion tanks</b>.',
+ doc:'<b>Durable units that excel at surviving prolonged fights and gradually pushing forward.</b>',
  rows:[
  ['land_scout','Skitter','T1','tweak','<b>Now radar-stealthy.</b> Provides vision for vehicle armies.'],
- ['attack_vehicle','Stryker','T1','rework','<b>Screen.</b> 55 → 100 metal, 60 → 135 hp, 24 @ rof 1.7, r80 → 95, plant-to-fire. Only vehicle that hits air.'],
- ['tank_light_laser','Ant','T1','tweak','<b>Hold.</b> <b>250 → 300 hp</b> only. Rof split and turn increase both dropped — they infringed on Stryker and on the tank chassis.'],
+ ['attack_vehicle','Stryker','T1','undecided','Role unsettled. 55 → <b>95 metal</b>, 60 → <b>125 hp</b>, range 80 → <b>90</b>. Gun kept as shipped — <b>15 × 2 muzzles @ rof 1 = 30 dps</b>. Only vehicle that hits air.'],
+ ['tank_light_laser','Ant','T1','tweak','<b>Durable medium tank.</b> Great at taking out mid-hp targets. <b>250 → 300 hp</b> and nothing else — gun stays at <b>84 damage @ rof 0.55</b> (46.2 dps), r100, turret yaw 180°/s, body turn 120°/s.'],
  ['tank_armor','Inferno','T1','hold','<b>Mobile wall.</b> Melts buildings and keeps enemies from entering melee range.'],
  ['tank_hover','Drifter','T1','rework','<b>Short-range hover brawler with a naval torpedo.</b> High close-range damage now that Spark’s dps has been reduced. <b>210 → 150 metal</b>, r110 → 67.5, 200 dmg @ rof 0.5 (no energy draw), turret yaw 60 → 180. Torpedo <b>250 dmg @ rof 0.25, r120</b>.'],
- ['aa_missile_vehicle','Spinner','T1','defer','Air rework.'],
- ['tank_laser_adv','Leveler','T2','tweak','<b>Break.</b> Damage and HP untouched. rof 1 → 0.75, turret yaw 30 → 20, turn 60 → 45. Splash 300 → ≤ 250 (rule).'],
- ['tank_heavy_armor','Vanguard','T2','hold',''],
- ['tank_heavy_mortar','Sheller','T2','open','Loses to Earthshaker\'s regen — 146 dps per 1000 metal against 300 regen/s.'],
- ['tank_flak','Storm','T2','tweak','<b>High RoF, inaccurate WW2 flak.</b> Model tweak.'],
- ['tank_jammer','Nyx','T2','hold','']]},
+ ['aa_missile_vehicle','Spinner','T1','hold','<b>AA deterrent.</b> Long range, medium durability.'],
+ ['tank_laser_adv','Leveler','T2','tweak','<b>Break.</b> Rate of fire <b>1 → 0.75</b>, splash 300 → <b>250</b> (splash ≤ damage rule). Damage and hp untouched.'],
+ ['tank_heavy_armor','Vanguard','T2','hold','<b>Superheavy zoning unit.</b> Devastating close-range damage.'],
+ ['tank_heavy_mortar','Sheller','T2','open','<b>Attrition artillery. Weak against shields</b> — 146 dps per 1000 metal against Earthshaker\'s 300 regen/s.'],
+ ['tank_flak','Storm','T2','rework','<b>High RoF, inaccurate WW2 flak.</b> Model tweak.'],
+ ['tank_jammer','Nyx','T2','hold','<b>Mobile radar jammer.</b>']]},
 
 {f:'leg',name:'Legion — Walker Foundry',sub:'anti-tank · alpha + shields',
- doc:'<b>No splash at all.</b> Alpha and shields — this line answers <b>MLA tanks</b>.',
+ doc:'<b>Assault units built for rushing down and killing armoured targets.</b>',
  rows:[
  ['l_assault_bot','Peacekeeper','T1','tweak','<b>Speed 15 → 16.</b> Shield absorbs <b>1117 vs Ant</b>, <b>1663 vs Drifter</b> per 1000 metal — and <b>0 vs Spark</b>. Anti-tank by construction.'],
  ['l_sniper_bot','Lancer','T1','tweak','<b>Speed 15 → 16.</b> Anti-armour alpha. <b>82% waste on a Dox is correct</b>, not a bug — it scales with target HP.'],
@@ -486,7 +488,7 @@ const FAC=[
  ['l_bot_support_commander','Praetorian','T2','rework','<b>T2.5 heavy assault bot. No AA, no AoE.</b> spd 16 · 5000 hp + 7500 shield @ 250/s · 2 × <b>1000 dmg</b> @ rof 0.5, r130.']]},
 
 {f:'leg',name:'Legion — Armour Foundry',sub:'anti-bot · splash',
- doc:'<b>Splash on every unit.</b> This line answers <b>MLA bots</b> — the job Legion\'s bots can\'t do.',
+ doc:'<b>Line units — excel at defence and holding positions.</b>',
  rows:[
  ['l_attack_vehicle','Predator','T1','rework','<b>Fast raider.</b> Base speed 14 → <b>30</b>, range 85 → <b>60</b>, hp 110 → <b>120</b>. <b>Hitscan beam, 15 damage @ rof 1.5</b> (22.5 dps). <b>All splash removed</b> — the only Legion vehicle without it.'],
  ['l_shotgun_tank','Maul','T1','hold','<b>Mobile wall + zoning.</b>'],
@@ -543,7 +545,7 @@ const SYN=[
   a:{u:['tank_armor','tank_light_laser','tank_laser_adv'],n:'+ Leveler',
    w:'The T1 pair cannot hurt anything above 2000 hp. Leveler adds <b>375 dps at r120 that works on armour</b>, so Scorpion, Earthshaker and Monstrosity become killable. It still cannot answer movement: <b>20°/s is 9 s for a half-turn</b>.'}},
  {b:{u:['land_scout','attack_vehicle','tank_hover'],n:'Skitter + Stryker + Drifter',
-   w:'All three move at <b>speed 14 or better</b>, so they travel together — and Skitter’s <b>vision 200 with radar stealth</b> tells them what they are walking into. Drifter’s 200 alpha discards 80% on a 40 hp Dox; Stryker’s rate of fire clears the chaff it cannot, and covers the air neither of them can touch.'}}]},
+   w:'All three move at <b>speed 14 or better</b>, so they travel together — and Skitter’s <b>vision 200 with radar stealth</b> tells them what they are walking into. Drifter’s 200 alpha discards 80% on a 40 hp Dox; Stryker’s <b>30-damage volley</b> wastes almost none of itself on the same target, and covers the air neither of them can touch.'}}]},
 
 {f:'leg',name:'Legion — Walker Foundry',
  t2:{u:['l_riot_bot','l_bot_artillery_adv','l_necromancer'],n:'Enforcer + Monstrosity + Necromancer',
@@ -651,7 +653,7 @@ const U=[
    p:{rng:80,dpsm:0.429,idx:0.531}},
  {k:'bot_grenadier',n:'Grenadier',f:'mla',c:'bot',t:1,spd:12,rng:140,hpm:0.800,dpsm:0.600,idx:0.480,lr:1},
  {k:'attack_vehicle',n:'Stryker',f:'mla',c:'tank',t:1,spd:14,rng:80,hpm:1.091,dpsm:0.545,idx:0.595,
-   p:{rng:95,hpm:1.350,dpsm:0.500,idx:0.675}},
+   und:1,p:{rng:90,hpm:1.316,dpsm:0.316,idx:0.416}},
  {k:'tank_light_laser',n:'Ant',f:'mla',c:'tank',t:1,spd:10,rng:100,hpm:1.667,dpsm:0.308,idx:0.513,
    p:{hpm:2.000,idx:0.616}},
  {k:'tank_armor',n:'Inferno',f:'mla',c:'tank',t:1,spd:10,rng:20,hpm:4.444,dpsm:1.778,idx:7.901},
