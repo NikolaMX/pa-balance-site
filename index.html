@@ -317,8 +317,9 @@ table.t2t .u b{font-size:13.5px}
       neither can avoid the other; <b>hp/metal</b> and <b>dps/metal</b> split that product back into
       its durability and output halves — the two units on the same power contour can sit at opposite
       ends of it.
-      Power and both of its halves use <b>sustained</b> dps — Deathmark fires one 500-damage shot
-      per 7 s (<span class="inline">ammo_per_shot 7 · ammo_demand 1</span>), so it is 71 dps, not 5000.
+      Power and both of its halves use <b>sustained</b> dps — shipped Deathmark fires one 500-damage
+      shot per 7 s (<span class="inline">ammo_per_shot 7 · ammo_demand 1</span>), so it is 71 dps,
+      not 5000; the proposal doubles that to two shots per 7 s, so 143.
       Shields count as hp, so Peacekeeper charts on 95 (60 + 35 shield) and the proposed Praetorian
       on 12500 (5000 + 7500).
       Speed is always the <b>base</b> value; combat-speed modifiers are not applied. Range is always the <b>anti-land</b> weapon — secondary torpedoes and orbital weapons are excluded, so Drifter charts at 67.5 rather than its 120 torpedo.
@@ -408,10 +409,6 @@ table.t2t .u b{font-size:13.5px}
            Slammer's kite (§5) — which the rework removes, so it's free to redesign.</p>
       </div>
       <div class="card open">
-        <h3>Naval roster</h3><p class="role">not extracted</p>
-        <p>Blocks Drifter — no ship HP to check its alpha against. Same gap that bit us on Hornet.</p>
-      </div>
-      <div class="card open">
         <h3>Sheller vs bubble shields</h3><p class="role">decision, not a number</p>
         <p>Earthshaker regenerates <b>300/s</b>; Sheller does <b>146 dps per 1000 metal</b>. Should
            bubble-breaking require <span class="inline">ignore_shields</span>, or should massed
@@ -499,7 +496,7 @@ const FAC=[
  ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> 250 on the primary hit, 150 per chain hit, 7 jumps, radius 35.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. Immobility (spd 8, 3.3 s reversal) is the only distinctive property; friendly fire is too rare to carry it.'],
  ['l_tank_heavy_armor','Mobile bubble shield','T2','hold',''],
- ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> Damage <b>350</b>, range 260 → <b>280</b>, <b>2-shot clip</b>. Slow shell only matters against things that move.'],
+ ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> <b>2 × 500 damage every 7 s</b> (143 sustained dps, up from 71), range 260 → <b>280</b>, <b>1000 → 700 metal</b>. Slow shell only matters against things that move.'],
  ['l_hover_tank_adv','Panzer','T2','rework','<b>Volleys of AA missiles with spread targeting.</b>']]}];
 
 const facs=document.getElementById('facs');
@@ -697,10 +694,11 @@ const U=[
    p:{dpsm:0.625,idx:0.352}},
  {k:'l_tank_laser_adv',n:'Scorpion',f:'leg',c:'tank',t:2,spd:8,rng:130,hpm:1.818,dpsm:0.409,
    idx:0.744,und:1},
- /* Deathmark: ammo_capacity 7, ammo_per_shot 7, ammo_demand 1 -> ONE 500 dmg shot
-    per 7 s = 71.4 sustained dps, not a 5000 dps burst. */
+ /* Deathmark shipped: ammo_capacity 7, ammo_per_shot 7, ammo_demand 1 -> ONE 500 dmg
+    shot per 7 s = 71.4 sustained dps, not a 5000 dps burst.  Proposed doubles the
+    clip (ammo_demand 2) -> 2 x 500 per 7 s = 142.9 dps at 700 metal. */
  {k:'l_sniper_tank',n:'Deathmark',f:'leg',c:'tank',t:2,spd:8,rng:260,hpm:0.250,dpsm:0.071,idx:0.018,
-   lr:1,p:{rng:280,hpm:0.357,idx:0.026}}];
+   lr:1,p:{rng:280,hpm:0.357,dpsm:0.204,idx:0.073}}];
 
 (function(){
   const cv=document.getElementById('space'),ctx=cv.getContext('2d');
