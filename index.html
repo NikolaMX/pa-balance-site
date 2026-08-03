@@ -265,8 +265,7 @@ table.t2t .u b{font-size:13.5px}
     <div class="shead"><span class="snum">01</span><h2>Factory by factory</h2></div>
     <p class="sdek">
       Broad sweeps only. <span class="inline">REWORK</span> = role change,
-      <span class="inline">TWEAK</span> = numbers only, <span class="inline">HOLD</span> = no change
-      proposed, <span class="inline">OPEN</span> = unresolved, <span class="inline">UNDECIDED</span> = role not yet chosen.
+      <span class="inline">TWEAK</span> = numbers only, <span class="inline">NO CHANGE</span> = nothing proposed, <span class="inline">OPEN</span> = unresolved, <span class="inline">UNDECIDED</span> = role not yet chosen.
     </p>
     <div class="facs" id="facs"></div>
   </section>
@@ -422,9 +421,9 @@ const FAC=[
  doc:'Splash lives here: <b>Spark and Boom</b>. This line answers <b>Legion bots</b>.',
  rows:[
  ['assault_bot','Dox','T1','tweak','<b>Rate of fire 0.9 → 1.0</b> (dps 18 → 20). The design anchor — everything else is positioned against it.'],
- ['bot_bomb','Boom','T1','hold',''],
+ ['bot_bomb','Boom','T1','hold','<b>Utility and attack of opportunity unit.</b>'],
  ['bot_tesla','Spark','T1','rework','<b>Anti-swarm only.</b> 160 → 90 damage, <b>range 67.5 → 80</b>, 2 s reload kept, splash unchanged. Loses the anti-Inferno job — that was the second role.'],
- ['bot_grenadier','Grenadier','T1','hold',''],
+ ['bot_grenadier','Grenadier','T1','hold','<b>Attrition artillery.</b>'],
  ['bot_aa','Stinger','T1','defer','Air rework.'],
  ['assault_bot_adv','Slammer','T2','rework','<b>Fast, durable damage dealer.</b> 400 hp, <b>120 @ rof 3 = 360 dps</b>, r100, spd 18 → 8 while firing.'],
  ['bot_sniper','Gil-E','T2','rework','<b>Ground sniper.</b> Loses air targeting. r200 → <b>220</b>, spd 12 → <b>14</b>, <b>half speed while firing</b>. 600 @ rof 0.2 retained.'],
@@ -438,7 +437,7 @@ const FAC=[
  ['land_scout','Skitter','T1','tweak','<b>Now radar-stealthy.</b> Provides vision for vehicle armies.'],
  ['attack_vehicle','Stryker','T1','rework','<b>Screen.</b> 55 → 100 metal, 60 → 135 hp, 24 @ rof 1.7, r80 → 95, plant-to-fire. Only vehicle that hits air.'],
  ['tank_light_laser','Ant','T1','tweak','<b>Hold.</b> <b>250 → 300 hp</b> only. Rof split and turn increase both dropped — they infringed on Stryker and on the tank chassis.'],
- ['tank_armor','Inferno','T1','hold',''],
+ ['tank_armor','Inferno','T1','hold','<b>Mobile wall.</b> Melts buildings and keeps enemies from entering melee range.'],
  ['tank_hover','Drifter','T1','rework','<b>Short-range hover brawler with a naval torpedo.</b> High close-range damage now that Spark’s dps has been reduced. <b>210 → 150 metal</b>, r110 → 67.5, 200 dmg @ rof 0.5 (no energy draw), turret yaw 60 → 180. Torpedo <b>250 dmg @ rof 0.25, r120</b>.'],
  ['aa_missile_vehicle','Spinner','T1','defer','Air rework.'],
  ['tank_laser_adv','Leveler','T2','tweak','<b>Break.</b> Damage and HP untouched. rof 1 → 0.75, turret yaw 30 → 20, turn 60 → 45. Splash 300 → ≤ 250 (rule).'],
@@ -466,8 +465,8 @@ const FAC=[
  doc:'<b>Splash on every unit.</b> This line answers <b>MLA bots</b> — the job Legion\'s bots can\'t do.',
  rows:[
  ['l_attack_vehicle','Predator','T1','rework','<b>Close / raid response.</b> 45 damage, rof 0.9, splash 30 @ r6, <b>base speed 14</b> → 20 with an enemy within 120 m. Legion\'s only mobile anti-Dox unit.'],
- ['l_shotgun_tank','Maul','T1','hold',''],
- ['l_tank_shank','Shank','T1','hold',''],
+ ['l_shotgun_tank','Maul','T1','hold','<b>Mobile wall + zoning.</b>'],
+ ['l_tank_shank','Shank','T1','hold','<b>Legion’s ranged area damage.</b>'],
  ['l_hover_tank','Corsair','T1','undecided','Role unassigned. Its stats existed to counter Slammer’s kite, which the rework removes — free to redesign.'],
  ['l_mortar_tank','Stoke','T1','rework','<b>Fires a hitscan AA laser.</b>'],
  ['l_tank_swarm','Havoc','T2','rework','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> 250 on the primary hit, 150 per chain hit, 7 jumps, radius 35.'],
@@ -486,7 +485,7 @@ for(const F of FAC){
     h+=`<div class="row${c==='undecided'?' und':''}">
       <span class="tile"><img src="${ICONS[k]||''}" alt=""></span>
       <span class="un">${n}<small>${t}</small></span>
-      <span class="chip c-${c}">${c}</span>
+      <span class="chip c-${c}">${c==='hold'?'no change':c}</span>
       <span class="txt">${txt}</span></div>`;
   }
   d.innerHTML=h+'</div>'; facs.appendChild(d);
