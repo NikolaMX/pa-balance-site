@@ -445,7 +445,7 @@ const FAC=[
  ['bot_sniper','Gil-E','T2','rework','<b>Ground sniper.</b> Loses air targeting. r200 → <b>220</b>, spd 12 → <b>14</b>, <b>half speed while firing</b>. 600 @ rof 0.2 retained.'],
  ['bot_tactical_missile','Bluehawk','T2','undecided','Role unsettled. Candidates:<br>· Long range, durable and fast AA, no anti-ground?<br>· Long range non-homing missiles, anti-static and anti-ship?<br>· Mid-short range, forces engagements?<br>· Slow / stationary when firing?'],
  ['bot_nanoswarm','Locusts','T2','hold','<b>Anti-structure sabotage bot.</b>'],
- ['bot_support_commander','Colonel','T2','tweak','<b>Explodes with a commander nuke on death.</b>']]},
+ ['bot_support_commander','Colonel','T2','tweak','<b>Explodes with a commander nuke on death.</b> <span class="inline">death_weapon</span> references the base commander\'s — <span class="inline">nuke_pbaoe</span> / <span class="inline">nuke_pbaoe_air</span>, air height threshold 50.']]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sub:'11 units · T1 + T2',
  doc:'<b>Durable units that excel at surviving prolonged fights and gradually pushing forward.</b>',
@@ -459,7 +459,7 @@ const FAC=[
  ['tank_laser_adv','Leveler','T2','tweak','<b>Break.</b> Rate of fire <b>1 → 0.75</b>, splash 300 → <b>250</b> (splash ≤ damage rule). Damage and hp untouched.'],
  ['tank_heavy_armor','Vanguard','T2','hold','<b>Superheavy zoning unit.</b> Devastating close-range damage.'],
  ['tank_heavy_mortar','Sheller','T2','open','<b>Attrition artillery. Weak against shields</b> — 146 dps per 1000 metal against Earthshaker\'s 300 regen/s.'],
- ['tank_flak','Storm','T2','rework','<b>High RoF, inaccurate WW2 flak.</b> Model tweak.'],
+ ['tank_flak','Storm','T2','rework','<b>High RoF, inaccurate flak.</b> Keeps the shipped flak shell. The <b>4 rounds fire in rapid succession</b> instead of one simultaneous volley, <b>rof 1.0 → 0.2</b>. Model: turret yaw enabled (shipped is <span class="inline">yaw 0/0</span>, pitch-only).'],
  ['tank_jammer','Nyx','T2','hold','<b>Mobile radar jammer.</b>']]},
 
 {f:'leg',name:'Legion — Walker Foundry',sub:'11 units · T1 + T2',
@@ -468,28 +468,28 @@ const FAC=[
  ['l_assault_bot','Peacekeeper','T1','tweak','<b>Speed 15 → 16.</b> Shield absorbs <b>1117 vs Ant</b>, <b>1663 vs Drifter</b> per 1000 metal, <b>0 vs Spark</b> (ignore_shields).'],
  ['l_sniper_bot','Lancer','T1','tweak','<b>Speed 15 → 16.</b> Anti-armour alpha: 225 per shot at rof 0.4, r80. <b>82% overkill on a 40 hp Dox.</b>'],
  ['l_bot_bomb','Purger','T1','rework','Movement leap range 40 → <b>100</b>. Weapon leap gains a <b>0.5 s delay</b>.'],
- ['l_bot_aa','Patriot','T1','tweak','<b>Now fires a high-velocity shotgun.</b> Speed 15 → 16.'],
+ ['l_bot_aa','Patriot','T1','tweak','Speed 15 → <b>16</b>.'],
  ['l_scout_bot','Investigator','T1','hold',''],
  ['l_riot_bot','Enforcer','T2','tweak','<b>Melts cheap chaff units.</b> <b>45 dmg @ rof 8 = 360 dps</b> — one-shots anything at 45 hp or under. Range 95 → <b>90</b>, 500 hp, speed 15.'],
  ['l_bot_artillery','Miniman','T2','undecided','Role unsettled.'],
  ['l_bot_artillery_adv','Monstrosity','T2','tweak','<b>Extremely durable.</b> Forces engagements. 4000 hp, r140, speed 15. Turn 45 → 90.'],
  ['l_necromancer','Necromancer','T2','rework','<b>Revives dead units from wreckages</b>, and periodically spawns Purgers.'],
- ['l_bot_aa_adv','Orbweaver','T2','tweak','<b>Long-range, high-damage, no-AoE lasers.</b>'],
+ ['l_bot_aa_adv','Orbweaver','T2','hold',''],
  ['l_bot_support_commander','Praetorian','T2','rework','<b>T2.5 heavy assault bot. No AA, no AoE.</b> spd 16 · 5000 hp + 7500 shield @ 250/s · 2 × <b>1000 dmg</b> @ rof 0.5, r130.']]},
 
 {f:'leg',name:'Legion — Armour Foundry',sub:'10 units · T1 + T2',
  doc:'<b>Line units — excel at defence and holding positions.</b>',
  rows:[
- ['l_attack_vehicle','Predator','T1','rework','<b>Fast raider.</b> Base speed 14 → <b>30</b>, range 85 → <b>60</b>, hp 110 → <b>120</b>. <b>Hitscan beam, 15 damage @ rof 1.5</b> (22.5 dps). <b>All splash removed</b> — the only Legion vehicle without it.'],
+ ['l_attack_vehicle','Predator','T1','rework','<b>Fast raider.</b> Base speed 15 → <b>30</b>, range 85 → <b>60</b>, hp 100 → <b>120</b>. <b>All splash removed</b> — the only Legion vehicle without it. Gun unchanged at 30 damage @ rof 1.'],
  ['l_shotgun_tank','Maul','T1','hold','<b>Mobile wall + zoning.</b>'],
  ['l_tank_shank','Shank','T1','tweak','<b>Legion’s ranged area damage.</b> Cost 270 → <b>250</b>, range 100 → <b>105</b>.'],
  ['l_hover_tank','Corsair','T1','open','Role unassigned. 220 metal, 100 hp, r160, 60 dmg + 30 splash r8, speed 10.'],
- ['l_mortar_tank','Stoke','T1','rework','<b>Fires a hitscan AA laser.</b>'],
- ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> <b>500 on the primary hit, then 4 jumps at 150 each</b> — 5 targets and 1100 damage per shot, jump radius 35.'],
+ ['l_mortar_tank','Stoke','T1','rework','<b>Fires a hitscan AA laser.</b> Uses the Catfish beam and hit FX at <b>+50% beam thickness</b>; damage, rate of fire and splash unchanged.'],
+ ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> <b>500 on the primary hit, then 4 jumps at 150 each</b> — 5 targets and 1100 damage per shot.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. 1100 metal, 2000 hp, 750 dmg + 250 splash r5 at r130, speed 8, 3.3 s reversal.'],
  ['l_tank_heavy_armor','Mobile bubble shield','T2','hold',''],
- ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> <b>2 × 500 damage every 7 s</b> (143 sustained dps, up from 71), range 260 → <b>280</b>, <b>1000 → 700 metal</b>. 2.6 s shell flight.'],
- ['l_hover_tank_adv','Panzer','T2','rework','<b>Volleys of AA missiles with spread targeting.</b>']]}];
+ ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> Fires a <b>clip of 2 shots every 7 s</b> via carpet fire (<span class="inline">wait_for_carpet_fire</span> true) — 2 × 500 = 143 sustained dps, up from 71. Range 260 → <b>280</b>. 2.6 s shell flight.'],
+ ['l_hover_tank_adv','Panzer','T2','hold','']]}];
 
 const facs=document.getElementById('facs');
 for(const F of FAC){
@@ -668,7 +668,7 @@ const U=[
    p:{spd:16}},
  {k:'l_bot_bomb',n:'Purger',f:'leg',c:'bot',t:1,spd:30,rng:40,hpm:0.333,dpsm:null,idx:null},
  {k:'l_attack_vehicle',n:'Predator',f:'leg',c:'tank',t:1,spd:15,rng:85,hpm:1.000,dpsm:0.300,idx:0.300,
-   p:{spd:30,rng:60,hpm:1.200,dpsm:0.225,idx:0.27}},
+   p:{spd:30,rng:60,hpm:1.200,idx:0.360}},
  {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,hpm:3.529,dpsm:0.824,idx:2.908},
  {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,hpm:1.111,dpsm:0.433,idx:0.481,
    p:{rng:105,hpm:1.200,dpsm:0.468,idx:0.562}},
