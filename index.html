@@ -445,7 +445,7 @@ const FAC=[
  ['l_bot_bomb','Purger','T1','rework','Movement leap range 40 → <b>100</b>. Weapon leap gains a <b>0.5 s delay</b> — reposition freely, commit visibly to the attack.'],
  ['l_bot_aa','Patriot','T1','tweak','<b>Now fires a high-velocity shotgun.</b> Speed 15 → 16.'],
  ['l_scout_bot','Investigator','T1','hold','No change.'],
- ['l_riot_bot','Enforcer','T2','tweak','Short range, high speed, high DPS and RoF — <b>10/s × 50 dmg</b>.'],
+ ['l_riot_bot','Enforcer','T2','tweak','Short range, high speed, high DPS and RoF — <b>10/s × 50 dmg</b>. Range 95 → <b>90</b>.'],
  ['l_bot_artillery','Miniman','T2','undecided','Role unsettled.'],
  ['l_bot_artillery_adv','Monstrosity','T2','tweak','<b>Extremely durable.</b> Forces engagements with medium-long range and medium-high speed. Turn 45 → 90.'],
  ['l_necromancer','Necromancer','T2','rework','<b>Revives dead units from wreckages</b>, and periodically spawns Purgers.'],
@@ -504,9 +504,9 @@ const SYN=[
  {u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
   w:'Anti-tank by construction. The shield nullifies whole hits, so it eats the big alpha aimed at 70 hp Lancers — <b>1117 damage absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer’s 225 does the killing.'},
  {u:['l_bot_artillery_adv','l_riot_bot','l_assault_bot'],n:'Monstrosity + Enforcer + Peacekeeper',
-  w:'Enforcer is helpless unscreened at r95 and cannot reposition, so it needs both a screen and a reason for the fight to come to it. Peacekeeper is the screen; <b>Monstrosity forces the engagement</b> — 4000 hp walking forward makes the fight happen where Enforcer is already standing.'},
+  w:'Enforcer rushes in at r90 and has to survive the crossing to land its <b>500 dps</b>. Peacekeeper absorbs the alpha aimed at it and <b>Monstrosity draws the fire</b> — 4000 hp arriving first means Enforcer reaches contact with the shooting pointed elsewhere.'},
  {u:['l_necromancer','l_riot_bot'],n:'Necromancer + Enforcer',
-  w:'Enforcer holds ground and grinds; Necromancer recovers what the grind costs. Because Enforcer never moves, <b>its losses always fall inside Necromancer’s reach</b> — the pair turns attrition into sustain rather than a bleed.'}]},
+  w:'Enforcer trades hard at close range and takes losses doing it. Necromancer <b>recovers them from the wreckage</b>, so a rush that would otherwise be a one-way trip becomes repeatable.'}]},
 
 {f:'leg',name:'Legion — Armour Foundry',sets:[
  {u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
@@ -518,7 +518,7 @@ const SYN=[
  {u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
   w:'Spark at r80 screens with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can. Neither is a line unit alone, and the roles no longer overlap now that Spark has given up single-target damage.'},
  {u:['l_tank_heavy_armor','l_riot_bot'],n:'Bubble shield + Enforcer',
-  w:'The documented exception to Legion’s bot/tank dis-synergy. A bot army normally gets less from a radius shield because <b>bots take more space per metal</b> — but Enforcer is one expensive body that never moves, so 5000 hp at 300 regen sits entirely on top of it.'}]}];
+  w:'The bubble covers the approach, which is where a <b>r90 rush unit</b> is most exposed. The tension is speed — <b>Earthshaker is 10, Enforcer is 15</b> — so Enforcer only keeps the shield by advancing at the bubble’s pace, and gives up the rush to do it.'}]}];
 
 (function(){
   const box=document.getElementById('syns'); if(!box) return;
@@ -598,7 +598,7 @@ const U=[
  {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,idx:2.908},
  {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,idx:0.481},
  {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,idx:0.075,lr:1,und:1},
- {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,idx:1.235},
+ {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,idx:1.235,p:{rng:90}},
  {k:'l_bot_artillery',n:'Miniman',f:'leg',c:'bot',t:2,spd:10,rng:220,idx:0.188,lr:1,und:1},
  {k:'l_bot_artillery_adv',n:'Monstrosity',f:'leg',c:'bot',t:2,spd:15,rng:140,idx:0.457},
  /* Praetorian: proposed idx uses 6000 hp + 6000 shield = 12000 effective pool. */
