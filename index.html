@@ -157,7 +157,7 @@ table.t2t .u b{font-size:13.5px}
 .dot.proj{background:color-mix(in srgb,var(--ink) 32%,transparent)}
 
 /* ---- synergy pairings ---- */
-.syns{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:18px}
+.syns{display:grid;grid-template-columns:1fr;gap:18px}
 .syn{background:var(--panel);border:1px solid var(--line);border-radius:6px;
   box-shadow:var(--shadow);overflow:hidden}
 .syn-head{padding:13px 16px;border-bottom:1px solid var(--line);
@@ -168,16 +168,26 @@ table.t2t .u b{font-size:13.5px}
 .syn-leg .stripe{background:var(--leg)}
 .syn-x .stripe{background:linear-gradient(180deg,var(--mla),var(--leg))}
 .syn-name{font-weight:640;font-size:15.5px;letter-spacing:-.01em}
-.sset{padding:13px 16px;border-top:1px solid var(--line)}
+.sset{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
 .sset:first-of-type{border-top:none}
-.sset-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:8px}
-.sset-head .tile{width:32px;height:32px;border-radius:4px;background:var(--tile);
+.shalf{padding:13px 16px}
+.shalf.up{border-left:1px solid var(--line);background:color-mix(in srgb,var(--bg2) 55%,transparent)}
+.slab{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:7px}
+.shalf.up .slab{color:var(--mla)}
+.sset-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.sset-head .tile{width:30px;height:30px;border-radius:4px;background:var(--tile);
   border:1px solid var(--tileLine);display:grid;place-items:center;flex:none}
-.sset-head .tile img{width:26px;height:26px;display:block}
-.sset-head .plus{color:var(--dim);font-family:var(--mono);font-size:13px;margin:0 1px}
-.sset-head .nm{font-weight:620;font-size:13.5px;margin-left:6px}
-.sset p{margin:0;color:var(--ink2);font-size:13.5px}
-.sset p b{color:var(--ink);font-weight:600}
+.sset-head .tile.t2{border-color:var(--mla)}
+.sset-head .tile img{width:25px;height:25px;display:block}
+.sset-head .plus{color:var(--dim);font-family:var(--mono);font-size:12px}
+.sset-head .nm{font-weight:620;font-size:13px;margin-left:5px}
+.shalf p{margin:0;color:var(--ink2);font-size:13.5px}
+.shalf p b{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .sset{grid-template-columns:1fr}
+  .shalf.up{border-left:none;border-top:1px solid var(--line)}
+}
 
 /* ---- 3d ---- */
 .frame{background:linear-gradient(180deg,var(--bg2),var(--panel));border:1px solid var(--line);
@@ -445,7 +455,7 @@ const FAC=[
  ['l_bot_bomb','Purger','T1','rework','Movement leap range 40 → <b>100</b>. Weapon leap gains a <b>0.5 s delay</b> — reposition freely, commit visibly to the attack.'],
  ['l_bot_aa','Patriot','T1','tweak','<b>Now fires a high-velocity shotgun.</b> Speed 15 → 16.'],
  ['l_scout_bot','Investigator','T1','hold','No change.'],
- ['l_riot_bot','Enforcer','T2','tweak','Short range, high speed, high DPS and RoF — <b>10/s × 50 dmg</b>. Range 95 → <b>90</b>.'],
+ ['l_riot_bot','Enforcer','T2','tweak','<b>Melts cheap chaff units.</b> Short range, high speed, high DPS and RoF — <b>10/s × 50 dmg</b> one-shots anything at 50 hp or under. Range 95 → <b>90</b>.'],
  ['l_bot_artillery','Miniman','T2','undecided','Role unsettled.'],
  ['l_bot_artillery_adv','Monstrosity','T2','tweak','<b>Extremely durable.</b> Forces engagements with medium-long range and medium-high speed. Turn 45 → 90.'],
  ['l_necromancer','Necromancer','T2','rework','<b>Revives dead units from wreckages</b>, and periodically spawns Purgers.'],
@@ -483,58 +493,82 @@ for(const F of FAC){
 }
 
 /* ===== synergy pairings ===== */
+const T2SET=new Set(['assault_bot_adv','bot_sniper','bot_tactical_missile','bot_nanoswarm',
+ 'tank_laser_adv','tank_heavy_armor','tank_heavy_mortar','tank_flak','tank_jammer',
+ 'bot_support_commander','l_riot_bot','l_bot_artillery','l_bot_artillery_adv','l_necromancer',
+ 'l_bot_aa_adv','l_bot_support_commander','l_tank_swarm','l_tank_laser_adv','l_tank_heavy_armor',
+ 'l_sniper_tank','l_hover_tank_adv']);
+
 const SYN=[
 {f:'mla',name:'MLA — Bot Factory',sets:[
- {u:['assault_bot','bot_tesla'],n:'Dox + Spark',
-  w:'Spark at <b>r80 now sits behind Dox at r75</b> instead of in front of it, so the screen finally works. Dox supplies the bodies and the speed to pick the fight; Spark supplies the only splash in the bot line to punish whatever clumps against it.'},
- {u:['assault_bot','bot_bomb'],n:'Dox + Boom',
-  w:'Dox screens and picks the fight; Boom converts 45 metal into 600 damage against whatever the screen cannot chew through. <b>600 is Maul’s exact HP</b> and takes 60% of an Inferno — and with Spark’s dps cut to 45, Boom is the bot line’s answer to a wall.'},
- {u:['assault_bot','bot_tesla','assault_bot_adv','bot_sniper'],n:'Dox + Spark + Slammer + Gil-E',
-  w:'Dox screens the approach and Spark clears whatever clumps against it. Slammer is a fast, durable damage dealer — <b>400 hp at speed 18 with 360 dps</b> — so it reaches defended ground and keeps working once it is there. Gil-E removes the one <b>400–600 hp</b> unit that would stop the assault, from r220, before it starts.'}]},
+ {b:{u:['assault_bot','bot_tesla'],n:'Dox + Spark',
+   w:'Spark at <b>r80 now sits behind Dox at r75</b> instead of in front of it, so the screen finally works. Dox picks the fight; Spark punishes whatever clumps against it. Neither can hold ground or hurt a wall.'},
+  a:{u:['assault_bot','bot_tesla','assault_bot_adv','bot_sniper'],n:'+ Slammer + Gil-E',
+   w:'Slammer brings <b>360 dps on a 400 hp body at speed 18</b> — the first thing in the line that survives contact instead of only raiding. Gil-E deletes the one <b>400–600 hp</b> unit that would stop it, from r220, before the assault starts.'}},
+ {b:{u:['assault_bot','bot_bomb'],n:'Dox + Boom',
+   w:'Dox screens and picks the fight; Boom converts 45 metal into 600 damage against whatever the screen cannot chew through. <b>600 is Maul’s exact HP</b> and takes 60% of an Inferno.'},
+  a:{u:['assault_bot','bot_bomb','bot_sniper'],n:'+ Gil-E',
+   w:'Boom only matters if it reaches its target. Gil-E removes the medium units that would shoot the Booms down on approach, so more of them connect — turning an attack of opportunity into a planned strike.'}}]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sets:[
- {u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
-  w:'The trap. Ant’s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno’s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone: Ant kills almost nothing, Inferno can never reach anything.'},
- {u:['tank_armor','tank_light_laser','attack_vehicle'],n:'Inferno + Ant + Stryker',
-  w:'The closed package. Boom is what beats the trap, and <b>Stryker denies Boom at 5× an Ant’s efficiency</b> — one volley per Boom at r95. Stryker is not there for Dox, it is there to protect the toll.'},
- {u:['land_scout','tank_laser_adv','attack_vehicle'],n:'Skitter + Leveler + Stryker',
-  w:'Skitter’s <b>vision 200 plus radar stealth</b> lets it hold the forward position that feeds Leveler’s r120. Stryker covers the flank that Leveler’s 20°/s turret — <b>9 seconds for a half-turn</b> — physically cannot answer.'}]},
+ {b:{u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
+   w:'The trap. Ant’s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno’s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone.'},
+  a:{u:['tank_armor','tank_light_laser','tank_laser_adv'],n:'+ Leveler',
+   w:'The T1 pair cannot hurt anything above 2000 hp — it tops out at Inferno’s dps inside 20 m. Leveler adds <b>375 dps at r120 that works on armour</b>, so Scorpion, Earthshaker and Monstrosity become killable. It still cannot answer movement: <b>20°/s is 9 s for a half-turn</b>.'}},
+ {b:{u:['tank_light_laser','attack_vehicle'],n:'Ant + Stryker',
+   w:'No brawler, so none of the metal sits on a unit that cannot reach. <b>Stryker denies Boom at 5× an Ant’s efficiency</b> at r95 while Ant’s r100 holds the line.'},
+  a:{u:['tank_light_laser','attack_vehicle','tank_heavy_armor'],n:'+ Vanguard',
+   w:'Adds the manoeuvre the pair has none of. Vanguard <b>hot-drops</b>, and 5000 hp at 3.33 hp/metal absorbs a base’s defences long enough for the line to walk in behind it.'}},
+ {b:{u:['land_scout','tank_light_laser','attack_vehicle'],n:'Skitter + Ant + Stryker',
+   w:'Skitter’s <b>vision 200 and radar stealth</b> turn Ant’s range from decoration into a real toll — detection, not weapon range, is what sets the standoff distance.'},
+  a:{u:['land_scout','tank_light_laser','attack_vehicle','tank_heavy_mortar'],n:'+ Sheller',
+   w:'Sheller outranges everything at <b>260 but sees 100</b>. Skitter is what makes that range usable at all, and the T1 pair keeps anything off it while it fires.'}}]},
 
 {f:'leg',name:'Legion — Walker Foundry',sets:[
- {u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
-  w:'Anti-tank by construction. The shield nullifies whole hits, so it eats the big alpha aimed at 70 hp Lancers — <b>1117 damage absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer’s 225 does the killing.'},
- {u:['l_bot_artillery_adv','l_riot_bot','l_assault_bot'],n:'Monstrosity + Enforcer + Peacekeeper',
-  w:'Enforcer rushes in at r90 and has to survive the crossing to land its <b>500 dps</b>. Peacekeeper absorbs the alpha aimed at it and <b>Monstrosity draws the fire</b> — 4000 hp arriving first means Enforcer reaches contact with the shooting pointed elsewhere.'},
- {u:['l_necromancer','l_riot_bot'],n:'Necromancer + Enforcer',
-  w:'Enforcer trades hard at close range and takes losses doing it. Necromancer <b>recovers them from the wreckage</b>, so a rush that would otherwise be a one-way trip becomes repeatable.'}]},
+ {b:{u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
+   w:'Anti-tank by construction. The shield nullifies whole hits, eating the big alpha aimed at 70 hp Lancers — <b>1117 absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer’s 225 does the killing.'},
+  a:{u:['l_assault_bot','l_sniper_bot','l_bot_artillery_adv','l_riot_bot'],n:'+ Monstrosity + Enforcer',
+   w:'The T1 pair can neither force a fight nor clear chaff. <b>Monstrosity arrives first and draws the fire</b> with 4000 hp; Enforcer rushes in behind it at r90 with 500 dps to clear exactly what Lancer’s 225 alpha wastes itself on.'}},
+ {b:{u:['l_assault_bot','l_bot_bomb'],n:'Peacekeeper + Purger',
+   w:'Cheap bodies plus a <b>100-range leap</b>. The pair trades metal for damage and expects to lose the metal — that is the design, not a flaw.'},
+  a:{u:['l_assault_bot','l_bot_bomb','l_necromancer'],n:'+ Necromancer',
+   w:'Turns the trade into a loop. Necromancer <b>recovers units from the wreckage the pair generates</b>, so the losses that were the cost become the resource.'}}]},
 
 {f:'leg',name:'Legion — Armour Foundry',sets:[
- {u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
-  w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r100 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>. No trigger range to miss.'},
- {u:['l_tank_heavy_armor','l_tank_laser_adv','l_tank_swarm'],n:'Bubble shield + Scorpion + Havoc',
-  w:'Scorpion locks in and cannot change its mind — <b>speed 8, 3.3 s reversal</b>. The bubble keeps the dense push alive under fire, and Havoc’s chain answers anything that flanks or rushes by reaching past the screen.'}]},
+ {b:{u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
+   w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r100 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>.'},
+  a:{u:['l_shotgun_tank','l_tank_shank','l_tank_laser_adv'],n:'+ Scorpion',
+   w:'Adds reach the pair does not have — <b>750 alpha at r130</b> removes a heavy before the lines meet. It cannot change its mind afterwards: speed 8 and a <b>3.3 s reversal</b>, so it needs the pair standing in front of it.'}},
+ {b:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle'],n:'Maul + Shank + Predator',
+   w:'Predator is the <b>only Legion vehicle that can leave</b> — speed 14, rising to 20 near a target — so the line finally answers raids and kiters it could never chase.'},
+  a:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle','l_tank_heavy_armor'],n:'+ Bubble shield',
+   w:'<b>5000 hp at 300 regen</b> over the push, which is the only thing that lets it cross open ground against artillery. It also sets the pace — Earthshaker is speed 10, so Predator gives up its speed advantage to stay covered.'}}]},
 
 {f:'x',name:'Cross-factory',sets:[
- {u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
-  w:'Spark at r80 screens with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can. Neither is a line unit alone, and the roles no longer overlap now that Spark has given up single-target damage.'},
- {u:['l_tank_heavy_armor','l_riot_bot'],n:'Bubble shield + Enforcer',
-  w:'The bubble covers the approach, which is where a <b>r90 rush unit</b> is most exposed. The tension is speed — <b>Earthshaker is 10, Enforcer is 15</b> — so Enforcer only keeps the shield by advancing at the bubble’s pace, and gives up the rush to do it.'}]}];
+ {b:{u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
+   w:'Spark screens at r80 with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can. The roles stopped overlapping when Spark gave up single-target damage.'},
+  a:{u:['tank_hover','bot_tesla','assault_bot_adv'],n:'+ Slammer',
+   w:'Both T1 units are short-ranged and fragile per body, so the pair can only react. Slammer adds a <b>400 hp body at speed 18</b> that can lead the engagement instead of following it.'}}]}];
 
 (function(){
   const box=document.getElementById('syns'); if(!box) return;
+  const tiles=arr=>arr.map(k=>`<span class="tile${T2SET.has(k)?' t2':''}"><img src="${ICONS[k]||''}" alt=""></span>`)
+                      .join('<span class="plus">+</span>');
   for(const F of SYN){
     const d=document.createElement('div'); d.className='syn syn-'+F.f;
     let h=`<div class="syn-head"><span class="stripe"></span><span class="syn-name">${F.name}</span></div>`;
     for(const s of F.sets){
-      const tiles=s.u.map(k=>`<span class="tile"><img src="${ICONS[k]||''}" alt=""></span>`)
-                      .join('<span class="plus">+</span>');
-      h+=`<div class="sset"><div class="sset-head">${tiles}<span class="nm">${s.n}</span></div>
-          <p>${s.w}</p></div>`;
+      h+=`<div class="sset">
+        <div class="shalf"><div class="slab">T1</div>
+          <div class="sset-head">${tiles(s.b.u)}<span class="nm">${s.b.n}</span></div>
+          <p>${s.b.w}</p></div>
+        <div class="shalf up"><div class="slab">Upgraded</div>
+          <div class="sset-head">${tiles(s.a.u)}<span class="nm">${s.a.n}</span></div>
+          <p>${s.a.w}</p></div></div>`;
     }
     d.innerHTML=h; box.appendChild(d);
   }
 })();
-
 /* ===== T2 capability deltas ===== */
 const T2=[
  ['assault_bot_adv','Slammer','mla','MLA bots','Provide DPS and survivability','Gives the bot line a body that can stay in a fight instead of only raiding','proj'],
