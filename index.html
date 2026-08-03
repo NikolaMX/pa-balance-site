@@ -327,25 +327,18 @@ table.t2t .u b{font-size:13.5px}
     <div class="shead"><span class="snum">04</span><h2>Rules established</h2></div>
     <p class="sdek">Check every proposal against these before costing it.</p>
     <div class="cards">
-      <div class="card flag">
-        <h3>Splash ≤ damage</h3><p class="role">always</p>
-        <p>Shipped violations: <b>Leveler 250 dmg / 300 splash</b> and <b>Patriot 7.5 / 10</b>.</p>
-      </div>
+
       <div class="card flag">
         <h3>Range ceiling 120</h3><p class="role">non-artillery units</p>
         <p>Towers in both factions move to 120. MLA's T2 tower is already 120 → <b>~140</b>.
            New violators: <b>Monstrosity 140</b>, <b>Scorpion 130</b>.</p>
       </div>
       <div class="card flag">
-        <h3>Raid response needs speed ≥ 14</h3><p class="role">splits anti-swarm in two</p>
-        <p><i>Line defence</i> ignores speed — Inferno 2.00, Maul 1.06 count. <i>Raid response</i>
-           doesn't: Legion has exactly one T1 candidate, <b>Predator</b>.</p>
+        <h3>Raid response</h3><p class="role">speed and range together</p>
+        <p>To be able to respond to Dox / Booms, land units need <b>at least 14 speed and
+           comparable range to Dox</b> — Spark, Purger, Predator, Stryker.</p>
       </div>
-      <div class="card flag">
-        <h3>Vision ≥ range</h3><p class="role">direct-fire units</p>
-        <p>Corsair shoots 45 m blind, Slammer 25 m. Artillery being blind is fine; a line unit that
-           can't see its own range is spotter-dependent by accident.</p>
-      </div>
+
       <div class="card flag">
         <h3>T2 must unlock a manoeuvre</h3><p class="role">not scale up</p>
         <p>Siege, hot-drop, hold ground, revive, advance under fire, counter-battery. <b>Leveler is
@@ -378,21 +371,24 @@ table.t2t .u b{font-size:13.5px}
            bubble-breaking require <span class="inline">ignore_shields</span>, or should massed
            artillery work? If the latter, the lever is the regen, not the Sheller.</p>
       </div>
+
       <div class="card open">
-        <h3>Havoc chain radius</h3><p class="role">needs footprint data</p>
-        <p>Radius sets the density threshold. Wants rank depth (~20–30 m), but the real number
-           needs measured unit spacing.</p>
+        <h3>Bluehawk</h3><p class="role">role unsettled</p>
+        <p>Currently the <b>only T2 unit that can shoot through shields</b>. Previously caused
+           problems with kiting.</p>
+        <p>Ideas:<br>
+           · Long range, durable and fast AA, no anti-ground?<br>
+           · Long range non-homing missiles, anti-static and anti-ship? Role/range swap with Sheller?<br>
+           · Mid-short range, forces engagements?<br>
+           · Slow / stationary when firing?</p>
       </div>
       <div class="card open">
-        <h3>Bluehawk kiting</h3><p class="role">parked</p>
-        <p>A firing-speed penalty kills the kite but also kills counter-battery — closing on a
-           Sheller at r260 requires moving while firing. Any fix must not tax forward movement.</p>
+        <h3>Scorpion</h3><p class="role">role unclear</p>
+        <p>Possibly a <b>siege tank with very poor mobility and manoeuvrability while in
+           combat</b>? Locks in, but needs shields and Havocs to guard it from being flanked
+           or rushed.</p>
       </div>
-      <div class="card open">
-        <h3>Spark's index</h3><p class="role">gates two units</p>
-        <p>0.94 at speed 14 is tank-speed at tank-power. Ant and Drifter's targets both depend on
-           where it lands.</p>
-      </div>
+
     </div>
   </section>
 
