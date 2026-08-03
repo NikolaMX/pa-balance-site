@@ -86,13 +86,12 @@ h2{font-size:23px;font-weight:640;letter-spacing:-.012em;margin:0}
 .chip{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   border:1px solid currentColor;border-radius:3px;padding:3px 6px;margin-top:6px;
   display:inline-block;text-align:center;width:100%}
-.c-rework{color:var(--flag)}
-.c-tweak{color:var(--mla)}
+.c-rework{color:var(--mla)}
+.c-tweak{color:var(--flag)}
 .c-hold{color:var(--holdc)}
 .c-open{color:var(--open)}
 .c-defer{color:var(--dim);opacity:.7}
 .c-undecided{color:var(--danger);border-width:1.5px;font-weight:600}
-.fac-leg .c-tweak{color:var(--leg)}
 .row.und{background:color-mix(in srgb,var(--danger) 9%,transparent)}
 .row.und .un{color:var(--danger)}
 
@@ -257,7 +256,7 @@ table.t2t .u b{font-size:13.5px}
     <p class="sdek">
       Broad sweeps only. <span class="inline">REWORK</span> = role change,
       <span class="inline">TWEAK</span> = numbers only, <span class="inline">HOLD</span> = no change
-      proposed, <span class="inline">OPEN</span> = unresolved.
+      proposed, <span class="inline">OPEN</span> = unresolved, <span class="inline">UNDECIDED</span> = role not yet chosen.
     </p>
     <div class="facs" id="facs"></div>
   </section>
@@ -459,7 +458,7 @@ const FAC=[
  ['l_attack_vehicle','Predator','T1','rework','<b>Close / raid response.</b> 45 damage, rof 0.9, splash 30 @ r6, <b>base speed 14</b> → 20 with an enemy within 120 m. Legion\'s only mobile anti-Dox unit.'],
  ['l_shotgun_tank','Maul','T1','hold','<b>Mobile wall + zoning.</b> 600 hp = Boom\'s exact damage.'],
  ['l_tank_shank','Shank','T1','hold','<b>Legion\'s ranged area damage</b> — the only splash in Legion T1 that clears a 40 hp Dox. Optional: turn 90 → 180.'],
- ['l_hover_tank','Corsair','T1','open','Unassigned. Its stats existed to counter Slammer\'s kite, which the rework removes.'],
+ ['l_hover_tank','Corsair','T1','undecided','Role unassigned. Its stats existed to counter Slammer’s kite, which the rework removes — free to redesign.'],
  ['l_mortar_tank','Stoke','T1','rework','<b>Fires a hitscan AA laser.</b>'],
  ['l_tank_swarm','Havoc','T2','rework','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> 250 on the primary hit, 150 per chain hit, 7 jumps, radius 35.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. Immobility (spd 8, 3.3 s reversal) is the only distinctive property; friendly fire is too rare to carry it.'],
@@ -598,7 +597,7 @@ const U=[
    p:{spd:14,idx:0.446}},
  {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,idx:2.908},
  {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,idx:0.481},
- {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,idx:0.075,lr:1},
+ {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,idx:0.075,lr:1,und:1},
  {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,idx:1.235},
  {k:'l_bot_artillery',n:'Miniman',f:'leg',c:'bot',t:2,spd:10,rng:220,idx:0.188,lr:1,und:1},
  {k:'l_bot_artillery_adv',n:'Monstrosity',f:'leg',c:'bot',t:2,spd:15,rng:140,idx:0.457},
