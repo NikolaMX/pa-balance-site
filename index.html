@@ -167,6 +167,7 @@ table.t2t .u b{font-size:13.5px}
 .syn-head .stripe{width:3px;align-self:stretch;min-height:20px;border-radius:2px}
 .syn-mla .stripe{background:var(--mla)}
 .syn-leg .stripe{background:var(--leg)}
+.syn-x .stripe{background:linear-gradient(180deg,var(--mla),var(--leg))}
 .syn-name{font-weight:640;font-size:15.5px;letter-spacing:-.01em}
 .sset{padding:13px 16px;border-top:1px solid var(--line)}
 .sset:first-of-type{border-top:none}
@@ -487,34 +488,38 @@ const SYN=[
 {f:'mla',name:'MLA — Bot Factory',sets:[
  {u:['assault_bot','bot_tesla'],n:'Dox + Spark',
   w:'Spark at <b>r80 now sits behind Dox at r75</b> instead of in front of it, so the screen finally works. Dox supplies the bodies and the speed to pick the fight; Spark supplies the only splash in the bot line to punish whatever clumps against it.'},
- {u:['assault_bot','bot_tesla','bot_bomb'],n:'Dox + Spark + Boom',
-  w:'Covers the brawlers neither of the other two can reach. <b>Boom’s 600 is Maul’s exact HP</b> and takes 60% of an Inferno — and with Spark’s dps cut to 45, Boom <i>is</i> the bot line’s answer to a 1000 hp wall.'},
- {u:['assault_bot_adv','bot_sniper'],n:'Slammer + Gil-E',
-  w:'Slammer is the body nothing one-shots — 5 shots from Shank, 7 from Ant — so it can walk into defended ground. Gil-E removes the one <b>400–600 hp</b> unit that would stop it, from r220, before the assault starts.'}]},
+ {u:['assault_bot','bot_bomb'],n:'Dox + Boom',
+  w:'Dox screens and picks the fight; Boom converts 45 metal into 600 damage against whatever the screen cannot chew through. <b>600 is Maul’s exact HP</b> and takes 60% of an Inferno — and with Spark’s dps cut to 45, Boom is the bot line’s answer to a wall.'},
+ {u:['assault_bot','bot_tesla','assault_bot_adv','bot_sniper'],n:'Dox + Spark + Slammer + Gil-E',
+  w:'Dox screens the approach and Spark clears whatever clumps against it. Slammer is the body nothing one-shots — 5 shots from Shank, 7 from Ant — so it survives contact with defended ground. Gil-E removes the one <b>400–600 hp</b> unit that would stop the assault, from r220, before it starts.'}]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sets:[
  {u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
   w:'The trap. Ant’s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno’s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone: Ant kills almost nothing, Inferno can never reach anything.'},
  {u:['tank_armor','tank_light_laser','attack_vehicle'],n:'Inferno + Ant + Stryker',
-  w:'The closed package. Boom is what beats the trap, and <b>Stryker denies Boom at 5× an Ant’s efficiency</b> — one volley per Boom at r95. Stryker isn’t there for Dox, it’s there to protect the toll.'},
+  w:'The closed package. Boom is what beats the trap, and <b>Stryker denies Boom at 5× an Ant’s efficiency</b> — one volley per Boom at r95. Stryker is not there for Dox, it is there to protect the toll.'},
  {u:['land_scout','tank_laser_adv','attack_vehicle'],n:'Skitter + Leveler + Stryker',
   w:'Skitter’s <b>vision 200 plus radar stealth</b> lets it hold the forward position that feeds Leveler’s r120. Stryker covers the flank that Leveler’s 20°/s turret — <b>9 seconds for a half-turn</b> — physically cannot answer.'}]},
 
 {f:'leg',name:'Legion — Walker Foundry',sets:[
  {u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
   w:'Anti-tank by construction. The shield nullifies whole hits, so it eats the big alpha aimed at 70 hp Lancers — <b>1117 damage absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer’s 225 does the killing.'},
- {u:['l_assault_bot','l_riot_bot'],n:'Peacekeeper + Enforcer',
-  w:'Enforcer is helpless unscreened at r95; Peacekeeper is the screen. It runs both ways — Enforcer’s <b>10 hit events per second</b> is the best anti-shield profile in the game, covering the one thing shields are strong against.'},
- {u:['l_assault_bot','l_necromancer','l_bot_bomb'],n:'Peacekeeper + Necromancer + Purger',
-  w:'The only pairing that <b>rewards taking losses</b>. Peacekeepers die cheaply and leave wreckage, Necromancer recovers units from it, Purger converts the bodies into damage with a 100-range leap.'}]},
+ {u:['l_bot_artillery_adv','l_riot_bot','l_assault_bot'],n:'Monstrosity + Enforcer + Peacekeeper',
+  w:'Enforcer is helpless unscreened at r95 and cannot reposition, so it needs both a screen and a reason for the fight to come to it. Peacekeeper is the screen; <b>Monstrosity forces the engagement</b> — 4000 hp walking forward makes the fight happen where Enforcer is already standing.'},
+ {u:['l_necromancer','l_riot_bot'],n:'Necromancer + Enforcer',
+  w:'Enforcer holds ground and grinds; Necromancer recovers what the grind costs. Because Enforcer never moves, <b>its losses always fall inside Necromancer’s reach</b> — the pair turns attrition into sustain rather than a bleed.'}]},
 
 {f:'leg',name:'Legion — Armour Foundry',sets:[
  {u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
   w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r100 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>. No trigger range to miss.'},
  {u:['l_tank_heavy_armor','l_tank_laser_adv','l_tank_swarm'],n:'Bubble shield + Scorpion + Havoc',
-  w:'Scorpion locks in and cannot change its mind — <b>speed 8, 3.3 s reversal</b>. The bubble keeps the dense push alive under fire, and Havoc’s chain answers anything that flanks or rushes by reaching past the screen.'},
- {u:['l_shotgun_tank','l_attack_vehicle'],n:'Maul + Predator',
-  w:'Maul holds ground it can never leave. Predator is the <b>only Legion vehicle that can leave</b> — speed 14, rising to 20 near a target — so it answers the raids and kiters the rest of the line cannot chase.'}]}];
+  w:'Scorpion locks in and cannot change its mind — <b>speed 8, 3.3 s reversal</b>. The bubble keeps the dense push alive under fire, and Havoc’s chain answers anything that flanks or rushes by reaching past the screen.'}]},
+
+{f:'x',name:'Cross-factory',sets:[
+ {u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
+  w:'Spark at r80 screens with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can. Neither is a line unit alone, and the roles no longer overlap now that Spark has given up single-target damage.'},
+ {u:['l_tank_heavy_armor','l_riot_bot'],n:'Bubble shield + Enforcer',
+  w:'The documented exception to Legion’s bot/tank dis-synergy. A bot army normally gets less from a radius shield because <b>bots take more space per metal</b> — but Enforcer is one expensive body that never moves, so 5000 hp at 300 regen sits entirely on top of it.'}]}];
 
 (function(){
   const box=document.getElementById('syns'); if(!box) return;
