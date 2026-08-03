@@ -213,6 +213,14 @@ table.t2t .u b{font-size:13.5px}
 .ctl:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 .ctl-group{display:flex;gap:6px;flex-wrap:wrap}
 .ctl-sep{width:1px;align-self:stretch;background:var(--line2);margin:0 4px}
+.axsel{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.axsel select{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink2);background:var(--bg2);border:1px solid var(--line2);border-radius:3px;
+  padding:6px 8px;cursor:pointer}
+.axsel select:hover{color:var(--ink);border-color:var(--ink2)}
+.axsel select.on{border-color:var(--mla);color:var(--mla)}
+.axsel select:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 .legend{display:flex;gap:18px 24px;flex-wrap:wrap;align-items:center;padding:12px 16px;
   border-top:1px solid var(--line);background:var(--panel);font-family:var(--mono);
   font-size:11px;color:var(--dim);letter-spacing:.04em}
@@ -302,18 +310,23 @@ table.t2t .u b{font-size:13.5px}
 
   <!-- ===== 3 UNIT SPACE ===== -->
   <section>
-    <div class="shead"><span class="snum">03</span><h2>Unit space — speed × range × fair-fight power</h2></div>
+    <div class="shead"><span class="snum">03</span><h2 id="spaceTitle">Unit space</h2></div>
     <p class="sdek">
-      <b>Range</b> decides who shoots first, <b>speed</b> who can refuse, <b>power</b>
-      (<span class="inline">hp/metal × dps/metal</span>) who wins once neither can avoid the other.
-      Power always uses <b>sustained</b> dps — Deathmark fires one 500-damage shot per 7 s
-      (<span class="inline">ammo_per_shot 7 · ammo_demand 1</span>), so it is 71 dps, not 5000.
+      Five variables, any three on the axes. <b>Range</b> decides who shoots first, <b>speed</b>
+      who can refuse, <b>power</b> (<span class="inline">hp/metal × dps/metal</span>) who wins once
+      neither can avoid the other; <b>hp/metal</b> and <b>dps/metal</b> split that product back into
+      its durability and output halves — the two units on the same power contour can sit at opposite
+      ends of it.
+      Power and both of its halves use <b>sustained</b> dps — Deathmark fires one 500-damage shot
+      per 7 s (<span class="inline">ammo_per_shot 7 · ammo_demand 1</span>), so it is 71 dps, not 5000.
+      Shields count as hp, so Peacekeeper charts on 95 (60 + 35 shield) and the proposed Praetorian
+      on 12500 (5000 + 7500).
       Speed is always the <b>base</b> value; combat-speed modifiers are not applied. Range is always the <b>anti-land</b> weapon — secondary torpedoes and orbital weapons are excluded, so Drifter charts at 67.5 rather than its 120 torpedo.
-      <b>Speed × Power</b> shows the chassis axis breaking at speed 14. Scroll to zoom.
+      Scroll to zoom.
     </p>
     <div class="frame">
       <div class="frame-bar">
-        <span class="frame-title">28 ground-attack units</span>
+        <span class="frame-title" id="uCount">29 ground-attack units</span>
         <div class="ctl-group">
           <button class="ctl warn" data-mode="s" aria-pressed="false">Old</button>
           <button class="ctl" data-mode="p" aria-pressed="true">Proposed</button>
@@ -324,14 +337,22 @@ table.t2t .u b{font-size:13.5px}
           <button class="ctl" data-tier="1" aria-pressed="false">T1</button>
           <button class="ctl" data-tier="2" aria-pressed="false">T2</button>
           <span class="ctl-sep"></span>
-          <button class="ctl" data-view="free" aria-pressed="true">Free</button>
-          <button class="ctl" data-view="sp" aria-pressed="false">Speed × Power</button>
-          <button class="ctl" data-view="rp" aria-pressed="false">Range × Power</button>
-          <button class="ctl" data-view="sr" aria-pressed="false">Speed × Range</button>
-          <span class="ctl-sep"></span>
           <button class="ctl" id="zOut" aria-label="Zoom out">−</button>
           <button class="ctl" id="zIn" aria-label="Zoom in">+</button>
           <button class="ctl" id="zRst">Reset</button>
+        </div>
+      </div>
+      <div class="frame-bar">
+        <span class="frame-title">Axes — any 3 of 5</span>
+        <div class="ctl-group">
+          <label class="axsel">X <select id="axX" data-ax="x"></select></label>
+          <label class="axsel">Y <select id="axY" data-ax="y"></select></label>
+          <label class="axsel">Z <select id="axZ" data-ax="z"></select></label>
+          <span class="ctl-sep"></span>
+          <button class="ctl" data-view="free" aria-pressed="true">Free</button>
+          <button class="ctl" data-view="sp" aria-pressed="false">X × Z</button>
+          <button class="ctl" data-view="rp" aria-pressed="false">Y × Z</button>
+          <button class="ctl" data-view="sr" aria-pressed="false">X × Y</button>
         </div>
       </div>
       <div class="stage"><canvas id="space"></canvas><span class="hint" id="dragHint">drag to rotate · scroll to zoom</span></div>
@@ -342,7 +363,7 @@ table.t2t .u b{font-size:13.5px}
         <span class="lg"><svg width="14" height="12"><circle cx="6" cy="6" r="5.4" style="fill:none;stroke:var(--dim);stroke-width:1.6"/></svg> tank</span>
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> old value — differs from the proposal</span>
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--danger);stroke-width:2.6"/></svg> role undecided</span>
-        <span class="lg">power axis is log · <b>sustained</b> dps, never burst · <b>base</b> speed, modifiers not applied · <b>anti-land</b> range only</span>
+        <span class="lg">power, hp/metal and dps/metal axes are log · <b>sustained</b> dps, never burst · <b>base</b> speed, modifiers not applied · <b>anti-land</b> range only · shields count as hp</span>
       </div>
     </div>
   </section>
@@ -621,64 +642,99 @@ const T2=[
 })();
 
 /* ===== 3D roster =====
-   idx = hp/metal x SUSTAINED dps/metal.  spd is always BASE speed — combat-speed
-   modifiers are deliberately not applied.  p:{} holds the proposed values.        */
+   idx = hpm x dpsm exactly.  dpsm is SUSTAINED dps / metal, never burst.  hpm counts
+   shields as hp (Peacekeeper 60+35, proposed Praetorian 5000+7500).  spd is always
+   BASE speed — combat-speed modifiers are deliberately not applied.  p:{} holds the
+   proposed values; any field absent from p:{} is unchanged.                        */
 const U=[
- {k:'assault_bot',n:'Dox',f:'mla',c:'bot',t:1,spd:20,rng:75,idx:0.356,p:{idx:0.395}},
- {k:'bot_bomb',n:'Boom',f:'mla',c:'bot',t:1,spd:40,rng:10,idx:null},
- {k:'bot_tesla',n:'Spark',f:'mla',c:'bot',t:1,spd:14,rng:67.5,idx:0.943,
-   p:{rng:80,idx:0.531}},
- {k:'bot_grenadier',n:'Grenadier',f:'mla',c:'bot',t:1,spd:12,rng:140,idx:0.480,lr:1},
- {k:'attack_vehicle',n:'Stryker',f:'mla',c:'tank',t:1,spd:14,rng:80,idx:0.595,
-   p:{rng:95,idx:0.675}},
- {k:'tank_light_laser',n:'Ant',f:'mla',c:'tank',t:1,spd:10,rng:100,idx:0.513,
-   p:{idx:0.616}},
- {k:'tank_armor',n:'Inferno',f:'mla',c:'tank',t:1,spd:10,rng:20,idx:7.901},
- {k:'tank_hover',n:'Drifter',f:'mla',c:'tank',t:1,spd:14,rng:110,idx:0.283,p:{rng:67.5,idx:1.111}},
- {k:'assault_bot_adv',n:'Slammer',f:'mla',c:'bot',t:2,spd:14,rng:110,idx:0.518,
-   p:{spd:18,rng:100,idx:0.576}},
- {k:'bot_sniper',n:'Gil-E',f:'mla',c:'bot',t:2,spd:12,rng:200,idx:0.028,lr:1,
+ {k:'assault_bot',n:'Dox',f:'mla',c:'bot',t:1,spd:20,rng:75,hpm:0.889,dpsm:0.400,idx:0.356,
+   p:{dpsm:0.444,idx:0.395}},
+ {k:'bot_bomb',n:'Boom',f:'mla',c:'bot',t:1,spd:40,rng:10,hpm:0.444,dpsm:null,idx:null},
+ {k:'bot_tesla',n:'Spark',f:'mla',c:'bot',t:1,spd:14,rng:67.5,hpm:1.238,dpsm:0.762,idx:0.943,
+   p:{rng:80,dpsm:0.429,idx:0.531}},
+ {k:'bot_grenadier',n:'Grenadier',f:'mla',c:'bot',t:1,spd:12,rng:140,hpm:0.800,dpsm:0.600,idx:0.480,lr:1},
+ {k:'attack_vehicle',n:'Stryker',f:'mla',c:'tank',t:1,spd:14,rng:80,hpm:1.091,dpsm:0.545,idx:0.595,
+   p:{rng:95,hpm:1.350,dpsm:0.500,idx:0.675}},
+ {k:'tank_light_laser',n:'Ant',f:'mla',c:'tank',t:1,spd:10,rng:100,hpm:1.667,dpsm:0.308,idx:0.513,
+   p:{hpm:2.000,idx:0.616}},
+ {k:'tank_armor',n:'Inferno',f:'mla',c:'tank',t:1,spd:10,rng:20,hpm:4.444,dpsm:1.778,idx:7.901},
+ {k:'tank_hover',n:'Drifter',f:'mla',c:'tank',t:1,spd:14,rng:110,hpm:1.190,dpsm:0.238,idx:0.283,
+   p:{rng:67.5,hpm:1.667,dpsm:0.667,idx:1.111}},
+ {k:'assault_bot_adv',n:'Slammer',f:'mla',c:'bot',t:2,spd:14,rng:110,hpm:0.720,dpsm:0.720,idx:0.518,
+   p:{spd:18,rng:100,hpm:0.800,idx:0.576}},
+ {k:'bot_sniper',n:'Gil-E',f:'mla',c:'bot',t:2,spd:12,rng:200,hpm:0.188,dpsm:0.150,idx:0.028,lr:1,
    p:{spd:14,rng:220}},
- {k:'bot_tactical_missile',n:'Bluehawk',f:'mla',c:'bot',t:2,spd:12,rng:160,idx:0.171,lr:1,und:1},
- {k:'bot_nanoswarm',n:'Locusts',f:'mla',c:'bot',t:2,spd:30,rng:30,idx:0.128},
- {k:'tank_laser_adv',n:'Leveler',f:'mla',c:'tank',t:2,spd:10,rng:120,idx:1.016,
-   p:{idx:0.762}},
- {k:'tank_heavy_armor',n:'Vanguard',f:'mla',c:'tank',t:2,spd:10,rng:50,idx:2.222},
- {k:'tank_heavy_mortar',n:'Sheller',f:'mla',c:'tank',t:2,spd:10,rng:260,idx:0.009,lr:1},
- {k:'l_assault_bot',n:'Peacekeeper',f:'leg',c:'bot',t:1,spd:15,rng:67.5,idx:0.250,p:{spd:16}},
- {k:'l_sniper_bot',n:'Lancer',f:'leg',c:'bot',t:1,spd:15,rng:80,idx:0.403,p:{spd:16}},
- {k:'l_bot_bomb',n:'Purger',f:'leg',c:'bot',t:1,spd:30,rng:40,idx:null},
- {k:'l_attack_vehicle',n:'Predator',f:'leg',c:'tank',t:1,spd:15,rng:85,idx:0.300,
-   p:{spd:30,rng:60,idx:0.27}},
- {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,idx:2.908},
- {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,idx:0.481,p:{rng:105,idx:0.562}},
- {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,idx:0.075,lr:1},
- {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,idx:1.235,p:{rng:90,idx:0.889}},
- {k:'l_bot_artillery',n:'Miniman',f:'leg',c:'bot',t:2,spd:10,rng:220,idx:0.188,lr:1,und:1},
- {k:'l_bot_artillery_adv',n:'Monstrosity',f:'leg',c:'bot',t:2,spd:15,rng:140,idx:0.457},
- /* Praetorian: proposed idx uses 6000 hp + 6000 shield = 12000 effective pool. */
- {k:'l_bot_support_commander',n:'Praetorian',f:'leg',c:'bot',t:2,spd:12,rng:110,idx:0.065,
-   p:{spd:16,rng:130,idx:0.255}},
- {k:'l_tank_swarm',n:'Havoc',f:'leg',c:'tank',t:2,spd:15,rng:115,idx:0.703,
-   p:{idx:0.352}},
- {k:'l_tank_laser_adv',n:'Scorpion',f:'leg',c:'tank',t:2,spd:8,rng:130,idx:0.744,und:1},
+ {k:'bot_tactical_missile',n:'Bluehawk',f:'mla',c:'bot',t:2,spd:12,rng:160,hpm:1.143,dpsm:0.150,
+   idx:0.171,lr:1,und:1},
+ {k:'bot_nanoswarm',n:'Locusts',f:'mla',c:'bot',t:2,spd:30,rng:30,hpm:0.320,dpsm:0.400,idx:0.128},
+ {k:'tank_laser_adv',n:'Leveler',f:'mla',c:'tank',t:2,spd:10,rng:120,hpm:1.625,dpsm:0.625,idx:1.016,
+   p:{dpsm:0.469,idx:0.762}},
+ {k:'tank_heavy_armor',n:'Vanguard',f:'mla',c:'tank',t:2,spd:10,rng:50,hpm:3.333,dpsm:0.667,idx:2.222},
+ {k:'tank_heavy_mortar',n:'Sheller',f:'mla',c:'tank',t:2,spd:10,rng:260,hpm:0.104,dpsm:0.083,
+   idx:0.009,lr:1},
+ /* Peacekeeper hp = 60 + 35 shield = 95. */
+ {k:'l_assault_bot',n:'Peacekeeper',f:'leg',c:'bot',t:1,spd:15,rng:67.5,hpm:1.267,dpsm:0.312,
+   idx:0.395,p:{spd:16}},
+ {k:'l_sniper_bot',n:'Lancer',f:'leg',c:'bot',t:1,spd:15,rng:80,hpm:0.560,dpsm:0.720,idx:0.403,
+   p:{spd:16}},
+ {k:'l_bot_bomb',n:'Purger',f:'leg',c:'bot',t:1,spd:30,rng:40,hpm:0.333,dpsm:null,idx:null},
+ {k:'l_attack_vehicle',n:'Predator',f:'leg',c:'tank',t:1,spd:15,rng:85,hpm:1.000,dpsm:0.300,idx:0.300,
+   p:{spd:30,rng:60,hpm:1.200,dpsm:0.225,idx:0.27}},
+ {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,hpm:3.529,dpsm:0.824,idx:2.908},
+ {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,hpm:1.111,dpsm:0.433,idx:0.481,
+   p:{rng:105,hpm:1.200,dpsm:0.468,idx:0.562}},
+ {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,hpm:0.455,dpsm:0.164,idx:0.075,lr:1},
+ {k:'l_riot_bot',n:'Enforcer',f:'leg',c:'bot',t:2,spd:15,rng:95,hpm:1.111,dpsm:1.111,idx:1.235,
+   p:{rng:90,dpsm:0.800,idx:0.889}},
+ {k:'l_bot_artillery',n:'Miniman',f:'leg',c:'bot',t:2,spd:10,rng:220,hpm:0.125,dpsm:1.500,idx:0.188,
+   lr:1,und:1},
+ {k:'l_bot_artillery_adv',n:'Monstrosity',f:'leg',c:'bot',t:2,spd:15,rng:140,hpm:2.353,dpsm:0.194,
+   idx:0.457},
+ /* Praetorian: proposed hpm uses 5000 hp + 7500 shield = 12500 effective pool. */
+ {k:'l_bot_support_commander',n:'Praetorian',f:'leg',c:'bot',t:2,spd:12,rng:110,hpm:1.143,dpsm:0.057,
+   idx:0.065,p:{spd:16,rng:130,hpm:1.786,dpsm:0.143,idx:0.255}},
+ {k:'l_tank_swarm',n:'Havoc',f:'leg',c:'tank',t:2,spd:15,rng:115,hpm:0.563,dpsm:1.250,idx:0.703,
+   p:{dpsm:0.625,idx:0.352}},
+ {k:'l_tank_laser_adv',n:'Scorpion',f:'leg',c:'tank',t:2,spd:8,rng:130,hpm:1.818,dpsm:0.409,
+   idx:0.744,und:1},
  /* Deathmark: ammo_capacity 7, ammo_per_shot 7, ammo_demand 1 -> ONE 500 dmg shot
     per 7 s = 71.4 sustained dps, not a 5000 dps burst. */
- {k:'l_sniper_tank',n:'Deathmark',f:'leg',c:'tank',t:2,spd:8,rng:260,idx:0.018,lr:1,
-   p:{rng:280,idx:0.026}}];
+ {k:'l_sniper_tank',n:'Deathmark',f:'leg',c:'tank',t:2,spd:8,rng:260,hpm:0.250,dpsm:0.071,idx:0.018,
+   lr:1,p:{rng:280,hpm:0.357,idx:0.026}}];
 
 (function(){
   const cv=document.getElementById('space'),ctx=cv.getContext('2d');
   const imgs={}; U.forEach(u=>{const im=new Image();im.onload=draw;im.src=ICONS[u.k];imgs[u.k]=im;});
   let az=-0.62,el_=0.44,W=0,H=0,dpr=1,hideLR=false,tier='all',mode='p',zoom=1;
   let view='free',panX=0,panY=0;
-  const LO=Math.log10(0.008),HI=Math.log10(9),SPAN=HI-LO;
+  /* the five plottable variables.  lin = linear 0..max, dyn = range (rescales with
+     the visible set), log = log10 over [lo,hi].  Any three go on the axes.        */
+  const AXDEF={
+    spd :{name:'SPEED',     lin:40,        ticks:[0,10,20,30,40]},
+    rng :{name:'RANGE',     dyn:1},
+    idx :{name:'POWER',     log:[0.008,9], ticks:[0.01,0.1,1,8]},
+    hpm :{name:'HP/METAL',  log:[0.09,5],  ticks:[0.1,0.5,1,2,5]},
+    dpsm:{name:'DPS/METAL', log:[0.05,2],  ticks:[0.05,0.2,0.5,1,2]}};
+  const AXKEYS=['spd','rng','idx','hpm','dpsm'];
+  let axis={x:'spd',y:'rng',z:'idx'};
   /* proposed value if present, else shipped. spd is always base speed. */
   const V=(u,f)=>(mode==='p'&&u.p&&u.p[f]!==undefined)?u.p[f]:u[f];
   const chg=u=>mode==='s'&&!!u.p;   /* amber marks changed units in the Old view */
   const shown=()=>U.filter(u=>(!hideLR||!u.lr)&&(tier==='all'||u.t==+tier)&&!(mode==='p'&&u.p&&u.p.aa));
   const rngMax=()=>Math.max(...shown().map(u=>V(u,'rng')))>140?260:140;
   const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  /* value -> 0..1 for whatever variable sits on that axis. '' (none) pins to 0. */
+  function normFor(k,RMAX){
+    const A=AXDEF[k]; if(!A)return()=>0;
+    const cl=t=>Math.max(0,Math.min(1,t));
+    if(A.lin) return v=>v==null?0:cl(v/A.lin);
+    if(A.dyn) return v=>v==null?0:cl(v/RMAX);
+    const lo=Math.log10(A.log[0]),sp=Math.log10(A.log[1])-lo;
+    return v=>(v==null||v<=0)?0:cl((Math.log10(v)-lo)/sp);
+  }
+  const ticksFor=(k,RMAX)=>!AXDEF[k]?[]:AXDEF[k].dyn
+    ? (RMAX===260?[0,65,130,195,260]:[0,35,70,105,140]) : AXDEF[k].ticks;
+  const num=v=>v.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
 
   function proj(x,y,z){
     const X=x-.5,Y=y-.5,Z=z-.5,ca=Math.cos(az),sa=Math.sin(az);
@@ -693,8 +749,10 @@ const U=[
     const line=cssv('--line2'),dim=cssv('--dim'),ink=cssv('--ink'),ink2=cssv('--ink2'),
       mla=cssv('--mla'),leg=cssv('--leg'),tile=cssv('--tile'),flag=cssv('--flag'),
       MONO=cssv('--mono'),SANS=cssv('--sans'),RMAX=rngMax();
-    const nx=u=>V(u,'spd')/40,ny=u=>V(u,'rng')/RMAX,
-      nz=u=>V(u,'idx')==null?0:Math.max(0,Math.min(1,(Math.log10(V(u,'idx'))-LO)/SPAN));
+    const NX=normFor(axis.x,RMAX),NY=normFor(axis.y,RMAX),NZ=normFor(axis.z,RMAX);
+    const nx=u=>NX(V(u,axis.x)),ny=u=>NY(V(u,axis.y)),nz=u=>NZ(V(u,axis.z));
+    const uc=document.getElementById('uCount');
+    if(uc)uc.textContent=shown().length+' ground-attack units';
     ctx.strokeStyle=line;ctx.lineWidth=1;ctx.globalAlpha=.5;
     for(let i=0;i<=4;i++){const t=i/4;let a=proj(t,0,0),b=proj(t,1,0);
       ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);ctx.stroke();
@@ -705,9 +763,9 @@ const U=[
     ctx.strokeStyle=dim;ctx.lineWidth=1.6;
     for(const k of['x','y','z']){ctx.beginPath();ctx.moveTo(O.sx,O.sy);ctx.lineTo(ends[k].sx,ends[k].sy);ctx.stroke();}
     ctx.textAlign='center';ctx.textBaseline='middle';
-    const AX=[{k:'x',name:'SPEED',ticks:[0,10,20,30,40],norm:v=>v/40},
-      {k:'y',name:'RANGE',ticks:RMAX===260?[0,65,130,195,260]:[0,35,70,105,140],norm:v=>v/RMAX},
-      {k:'z',name:'POWER',ticks:[0.01,0.1,1,8],norm:v=>(Math.log10(v)-LO)/SPAN}];
+    const AX=[{k:'x',v:axis.x,norm:NX},{k:'y',v:axis.y,norm:NY},{k:'z',v:axis.z,norm:NZ}]
+      .filter(A=>!!AXDEF[A.v])
+      .map(A=>({...A,name:AXDEF[A.v].name,ticks:ticksFor(A.v,RMAX)}));
     for(const A of AX){const e=ends[A.k];
       ctx.font='600 10px '+MONO;ctx.fillStyle=dim;
       ctx.fillText(A.name,O.sx+(e.sx-O.sx)*1.14,O.sy+(e.sy-O.sy)*1.14);
@@ -732,10 +790,10 @@ const U=[
       if(im&&im.complete)ctx.drawImage(im,p.sx-9.35,p.sy-9.35,18.7,18.7);
       ctx.font='600 10.5px '+SANS;ctx.fillStyle=ink;ctx.textBaseline='top';
       ctx.fillText(u.n,p.sx,p.sy+half+4);
-      const iv=V(u,'idx');
+      /* the caption is whatever sits on Z — falls back to power when Z is off. */
+      const zk=AXDEF[axis.z]?axis.z:'idx',zv=V(u,zk);
       ctx.font='9px '+MONO;ctx.fillStyle=u.und?cssv('--danger'):(chg(u)?flag:ink2);
-      ctx.fillText(iv==null?'suicide':iv.toFixed(3).replace(/0+$/,'').replace(/\.$/,''),
-        p.sx,p.sy+half+17);
+      ctx.fillText(zv==null?'suicide':num(zv),p.sx,p.sy+half+17);
       ctx.textBaseline='middle';}
   }
   let dragging=false,lx=0,ly=0;
@@ -771,6 +829,27 @@ const U=[
     mode=b.dataset.mode;
     document.querySelectorAll('[data-mode]').forEach(o=>
       o.setAttribute('aria-pressed',String(o.dataset.mode===mode)));draw();}));
+
+  /* axis pickers: three slots, five variables, duplicates swap rather than collide */
+  function syncAxisUI(){
+    for(const a of['x','y','z']){
+      const s=document.getElementById('ax'+a.toUpperCase()); if(!s)continue;
+      let h='<option value=""'+(axis[a]===''?' selected':'')+'>none</option>';
+      for(const k of AXKEYS)
+        h+='<option value="'+k+'"'+(axis[a]===k?' selected':'')+'>'+AXDEF[k].name+'</option>';
+      s.innerHTML=h; s.classList.toggle('on',!!axis[a]);
+    }
+    const t=document.getElementById('spaceTitle');
+    if(t)t.textContent='Unit space — '+['x','y','z']
+      .map(a=>AXDEF[axis[a]]?AXDEF[axis[a]].name.toLowerCase():'—').join(' × ');
+  }
+  function setAxis(a,k){
+    if(k)for(const o of['x','y','z'])if(o!==a&&axis[o]===k)axis[o]=axis[a];
+    axis[a]=k;syncAxisUI();draw();
+  }
+  ['x','y','z'].forEach(a=>{const s=document.getElementById('ax'+a.toUpperCase());
+    if(s)s.addEventListener('change',e=>setAxis(a,e.target.value));});
+  syncAxisUI();
 
   /* zoom: wheel + buttons */
   const setZoom=z=>{zoom=Math.max(.35,Math.min(4,z));draw();};
