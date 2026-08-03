@@ -168,6 +168,9 @@ table.t2t .u b{font-size:13.5px}
 .syn-leg .stripe{background:var(--leg)}
 .syn-x .stripe{background:linear-gradient(180deg,var(--mla),var(--leg))}
 .syn-name{font-weight:640;font-size:15.5px;letter-spacing:-.01em}
+.syn-body{display:grid;grid-template-columns:1fr 310px}
+.syn-t2{border-left:1px solid var(--line);padding:13px 16px;background:color-mix(in srgb,var(--mla) 7%,transparent)}
+.syn-leg .syn-t2{background:color-mix(in srgb,var(--leg) 7%,transparent)}
 .sset{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
 .sset.solo{grid-template-columns:1fr}
 .sset:first-of-type{border-top:none}
@@ -185,6 +188,8 @@ table.t2t .u b{font-size:13.5px}
 .sset-head .nm{font-weight:620;font-size:13px;margin-left:5px}
 .shalf p{margin:0;color:var(--ink2);font-size:13.5px}
 .shalf p b{color:var(--ink);font-weight:600}
+@media (max-width:1000px){.syn-body{grid-template-columns:1fr}
+  .syn-t2{border-left:none;border-top:1px solid var(--line2)}}
 @media (max-width:760px){
   .sset{grid-template-columns:1fr}
   .shalf.up{border-left:none;border-top:1px solid var(--line)}
@@ -465,7 +470,7 @@ const FAC=[
 {f:'leg',name:'Legion — Armour Foundry',sub:'anti-bot · splash',
  doc:'<b>Splash on every unit.</b> This line answers <b>MLA bots</b> — the job Legion\'s bots can\'t do.',
  rows:[
- ['l_attack_vehicle','Predator','T1','rework','<b>Close / raid response.</b> 45 damage, rof 0.9, splash 30 @ r6, <b>base speed 14</b> → 20 with an enemy within 120 m. Legion\'s only mobile anti-Dox unit.'],
+ ['l_attack_vehicle','Predator','T1','rework','<b>Fast raider.</b> Base speed 14 → <b>30</b>, range 85 → <b>60</b>. <b>Hitscan beam, 30 damage per shot</b> at rof 0.9 (27 dps). Splash 30 @ r6 kept; near-target speed modifier dropped — base 30 replaces it.'],
  ['l_shotgun_tank','Maul','T1','hold','<b>Mobile wall + zoning.</b>'],
  ['l_tank_shank','Shank','T1','tweak','<b>Legion’s ranged area damage.</b> Cost 270 → <b>250</b>, range 100 → <b>105</b>.'],
  ['l_hover_tank','Corsair','T1','open','Role unassigned. Its stats existed to counter Slammer’s kite, which the rework removes — free to redesign.'],
@@ -500,7 +505,10 @@ const T2SET=new Set(['assault_bot_adv','bot_sniper','bot_tactical_missile','bot_
  'l_sniper_tank','l_hover_tank_adv']);
 
 const SYN=[
-{f:'mla',name:'MLA — Bot Factory',sets:[
+{f:'mla',name:'MLA — Bot Factory',
+ t2:{u:['assault_bot_adv','bot_sniper','bot_nanoswarm'],n:'Slammer + Gil-E + Locusts',
+  w:'The bot line without its screen. Slammer supplies the body and the dps, Gil-E the reach, Locusts the raid. <b>Fragile per metal</b> — nothing here is a wall, and Bluehawk is the missing fourth until its role lands.'},
+ sets:[
  {b:{u:['assault_bot','bot_tesla'],n:'Dox + Spark',
    w:'Spark at <b>r80 now sits behind Dox at r75</b> instead of in front of it, so the screen finally works. Dox picks the fight; Spark punishes whatever clumps against it. Neither can hold ground or hurt a wall.'},
   a:{u:['assault_bot','bot_tesla','assault_bot_adv','bot_sniper'],n:'+ Slammer + Gil-E',
@@ -508,37 +516,46 @@ const SYN=[
  {b:{u:['assault_bot','bot_bomb'],n:'Dox + Boom',
    w:'Dox screens and picks the fight; Boom converts 45 metal into 600 damage against whatever the screen cannot chew through. <b>600 is Maul’s exact HP</b> and takes 60% of an Inferno. <b>Complete at T1</b> — no T2 addition improves it.'}}]},
 
-{f:'mla',name:'MLA — Vehicle Factory',sets:[
+{f:'mla',name:'MLA — Vehicle Factory',
+ t2:{u:['tank_laser_adv','tank_heavy_armor','tank_heavy_mortar'],n:'Leveler + Vanguard + Sheller',
+  w:'Break, hot-drop and siege. Covers every range band from 50 to 260 and every job the T1 line cannot do. <b>Cannot answer speed</b> — all three are speed 10, with 9 to 30 second half-turns between them.'},
+ sets:[
  {b:{u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
    w:'The trap. Ant’s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno’s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone.'},
   a:{u:['tank_armor','tank_light_laser','tank_laser_adv'],n:'+ Leveler',
    w:'The T1 pair cannot hurt anything above 2000 hp. Leveler adds <b>375 dps at r120 that works on armour</b>, so Scorpion, Earthshaker and Monstrosity become killable. It still cannot answer movement: <b>20°/s is 9 s for a half-turn</b>.'}},
- {b:{u:['attack_vehicle','tank_hover'],n:'Stryker + Drifter',
-   w:'Both move at <b>speed 14</b>, so they actually travel together. Drifter’s 200 alpha discards 80% on a 40 hp Dox — Stryker’s rate of fire is what clears the chaff Drifter cannot, and it covers the air Drifter has no answer to.'}},
- {b:{u:['land_scout','tank_armor','tank_light_laser'],n:'Skitter + Inferno + Ant',
-   w:'Skitter’s <b>vision 200 and radar stealth</b> turn Ant’s range from decoration into a real toll — detection, not weapon range, is what sets the standoff distance.'},
-  a:{u:['land_scout','tank_armor','tank_light_laser','tank_heavy_mortar'],n:'+ Sheller',
-   w:'Sheller outranges everything at <b>260 but sees 100</b>. Skitter is what makes that range usable at all, and the line keeps anything off it while it fires.'}}]},
+ {b:{u:['land_scout','attack_vehicle','tank_hover'],n:'Skitter + Stryker + Drifter',
+   w:'All three move at <b>speed 14 or better</b>, so they travel together — and Skitter’s <b>vision 200 with radar stealth</b> tells them what they are walking into. Drifter’s 200 alpha discards 80% on a 40 hp Dox; Stryker’s rate of fire clears the chaff it cannot, and covers the air neither of them can touch.'}}]},
 
-{f:'leg',name:'Legion — Walker Foundry',sets:[
+{f:'leg',name:'Legion — Walker Foundry',
+ t2:{u:['l_riot_bot','l_bot_artillery_adv','l_necromancer'],n:'Enforcer + Monstrosity + Necromancer',
+  w:'Monstrosity forces the fight, Enforcer melts what shows up, Necromancer recovers the cost. <b>No reach at all</b> — the longest weapon here is Monstrosity at r140 and everything else has to arrive.'},
+ sets:[
  {b:{u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
    w:'Anti-tank by construction. The shield nullifies whole hits, eating the big alpha aimed at 70 hp Lancers — <b>1117 absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer’s 225 does the killing.'},
   a:{u:['l_assault_bot','l_sniper_bot','l_bot_artillery_adv','l_riot_bot'],n:'+ Monstrosity + Enforcer',
    w:'The T1 pair can neither force a fight nor clear chaff. <b>Monstrosity arrives first and draws the fire</b> with 4000 hp; Enforcer rushes in behind it at r90 with 500 dps to clear exactly what Lancer’s 225 alpha wastes itself on.'}},
  {b:{u:['l_assault_bot','l_bot_bomb'],n:'Peacekeeper + Purger',
    w:'Cheap bodies plus a <b>100-range leap</b>. The pair trades metal for damage and expects to lose the metal — that is the design, not a flaw.'},
-  a:{u:['l_assault_bot','l_bot_bomb','l_bot_artillery_adv','l_necromancer'],n:'+ Monstrosity + Necromancer',
-   w:'<b>Necromancer is wasted on T1</b> — a 75 metal Peacekeeper is not worth recovering. Monstrosity at <b>1700 metal</b> is, and it dies at the front where the wreckage lands. The T1 pair becomes the screen that keeps Necromancer alive long enough to collect.'}}]},
+  a:{u:['l_assault_bot','l_bot_bomb','l_riot_bot','l_necromancer'],n:'+ Enforcer + Necromancer',
+   w:'<b>Necromancer is wasted on T1</b> — a 75 metal Peacekeeper is not worth recovering. Enforcer at <b>450 metal</b> is, and it dies at close range where the wreckage lands. The T1 pair is the screen that keeps Necromancer alive long enough to collect.'}}]},
 
-{f:'leg',name:'Legion — Armour Foundry',sets:[
+{f:'leg',name:'Legion — Armour Foundry',
+ t2:{u:['l_tank_laser_adv','l_tank_swarm','l_tank_heavy_armor'],n:'Scorpion + Havoc + Bubble shield',
+  w:'Scorpion breaks heavies before contact, Havoc reaches past whatever screens them, the bubble carries both across open ground. <b>Speed 8 to 15 under a speed-10 shield</b> — it commits once and cannot be recalled.'},
+ sets:[
  {b:{u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
    w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r105 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>.'},
   a:{u:['l_shotgun_tank','l_tank_shank','l_tank_laser_adv'],n:'+ Scorpion',
    w:'Adds reach the pair does not have — <b>750 alpha at r130</b> removes a heavy before the lines meet. It cannot change its mind afterwards: speed 8 and a <b>3.3 s reversal</b>, so it needs the pair standing in front of it.'}},
+ {b:{u:['l_attack_vehicle','l_bot_bomb'],n:'Predator + Purger',
+   w:'Legion finally has a raid. <b>Both move at speed 30</b> — Predator beams at r60, Purger leaps 100 into whatever Predator has already latched onto. Nothing else in the faction can arrive, commit and leave.'},
+  a:{u:['l_attack_vehicle','l_bot_bomb','l_necromancer'],n:'+ Necromancer',
+   w:'A raid that trades bodies wants them back. Necromancer <b>recovers from the wreckage the pair leaves behind</b>, which is the only way a 30-speed suicide pairing stops being a one-way trip.'}},
  {b:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle'],n:'Maul + Shank + Predator',
-   w:'Predator is the <b>only Legion vehicle that can leave</b> — speed 14, rising to 20 near a target — so the line finally answers raids and kiters it could never chase.'},
+   w:'Predator is the <b>only Legion vehicle that can leave</b> — speed 30 at r60 — so the line finally answers raids and kiters it could never chase.'},
   a:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle','l_tank_heavy_armor'],n:'+ Bubble shield',
-   w:'<b>5000 hp at 300 regen</b> over the push, which is the only thing that lets it cross open ground against artillery. It also sets the pace — Earthshaker is speed 10, so Predator gives up its speed advantage to stay covered.'}}]},
+   w:'<b>5000 hp at 300 regen</b> over the push, the only thing that lets it cross open ground against artillery. It also sets the pace — Earthshaker is speed 10, so Predator gives up its speed entirely to stay covered.'}}]},
 
 {f:'x',name:'Cross-factory',sets:[
  {b:{u:['bot_grenadier','tank_armor','tank_light_laser'],n:'Grenadier + Inferno + Ant',
@@ -546,17 +563,16 @@ const SYN=[
   a:{u:['bot_grenadier','tank_armor','tank_light_laser','tank_laser_adv'],n:'+ Leveler',
    w:'The trio has no answer to 2000 hp+ armour. Leveler supplies it, and this line is already static enough to cover a unit with a <b>9-second half-turn</b>.'}},
  {b:{u:['tank_hover','bot_tesla'],n:'Drifter + Spark',
-   w:'Spark screens at r80 with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can. The roles stopped overlapping when Spark gave up single-target damage.'},
+   w:'Spark screens at r80 with the only splash MLA bots have and <b>ignores shields</b>; Drifter’s <b>200 alpha at r67.5</b> kills the medium units Spark’s 90 damage no longer can.'},
   a:{u:['tank_hover','bot_tesla','assault_bot_adv'],n:'+ Slammer',
    w:'Both T1 units are short-ranged and fragile per body, so the pair can only react. Slammer adds a <b>400 hp body at speed 18</b> that can lead the engagement instead of following it.'}}]}];
-
 (function(){
   const box=document.getElementById('syns'); if(!box) return;
   const tiles=arr=>arr.map(k=>`<span class="tile${T2SET.has(k)?' t2':''}"><img src="${ICONS[k]||''}" alt=""></span>`)
                       .join('<span class="plus">+</span>');
   for(const F of SYN){
     const d=document.createElement('div'); d.className='syn syn-'+F.f;
-    let h=`<div class="syn-head"><span class="stripe"></span><span class="syn-name">${F.name}</span></div>`;
+    let h=`<div class="syn-head"><span class="stripe"></span><span class="syn-name">${F.name}</span></div><div class="syn-body"><div class="syn-sets">`;
     for(const s of F.sets){
       h+=`<div class="sset${s.a?'':' solo'}">
         <div class="shalf"><div class="slab">T1</div>
@@ -566,6 +582,11 @@ const SYN=[
           <div class="sset-head">${tiles(s.a.u)}<span class="nm">${s.a.n}</span></div>
           <p>${s.a.w}</p></div>`:'') + `</div>`;
     }
+    h+=`</div>`;
+    if(F.t2){ h+=`<div class="syn-t2"><div class="slab">T2 army</div>
+      <div class="sset-head">${tiles(F.t2.u)}<span class="nm">${F.t2.n}</span></div>
+      <p>${F.t2.w}</p></div>`; }
+    h+=`</div>`;
     d.innerHTML=h; box.appendChild(d);
   }
 })();
@@ -628,7 +649,7 @@ const U=[
  {k:'l_sniper_bot',n:'Lancer',f:'leg',c:'bot',t:1,spd:15,rng:80,idx:0.403,p:{spd:16}},
  {k:'l_bot_bomb',n:'Purger',f:'leg',c:'bot',t:1,spd:30,rng:40,idx:null},
  {k:'l_attack_vehicle',n:'Predator',f:'leg',c:'tank',t:1,spd:15,rng:85,idx:0.300,
-   p:{spd:14,idx:0.446}},
+   p:{spd:30,rng:60,idx:0.297}},
  {k:'l_shotgun_tank',n:'Maul',f:'leg',c:'tank',t:1,spd:10,rng:50,idx:2.908},
  {k:'l_tank_shank',n:'Shank',f:'leg',c:'tank',t:1,spd:10,rng:100,idx:0.481,p:{rng:105,idx:0.562}},
  {k:'l_hover_tank',n:'Corsair',f:'leg',c:'tank',t:1,spd:10,rng:160,idx:0.075,lr:1},
