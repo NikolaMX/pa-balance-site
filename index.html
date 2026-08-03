@@ -495,7 +495,7 @@ const FAC=[
  ['l_tank_shank','Shank','T1','tweak','<b>Legion’s ranged area damage.</b> Cost 270 → <b>250</b>, range 100 → <b>105</b>.'],
  ['l_hover_tank','Corsair','T1','open','Role unassigned. Its stats existed to counter Slammer’s kite, which the rework removes — free to redesign.'],
  ['l_mortar_tank','Stoke','T1','rework','<b>Fires a hitscan AA laser.</b>'],
- ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> 250 on the primary hit, 150 per chain hit, 7 jumps, radius 35.'],
+ ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> 250 on the primary hit, then <b>2 jumps at 150 each</b> — 3 targets per shot, jump radius 35.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. Immobility (spd 8, 3.3 s reversal) is the only distinctive property; friendly fire is too rare to carry it.'],
  ['l_tank_heavy_armor','Mobile bubble shield','T2','hold',''],
  ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> <b>2 × 500 damage every 7 s</b> (143 sustained dps, up from 71), range 260 → <b>280</b>, <b>1000 → 700 metal</b>. Slow shell only matters against things that move.'],
@@ -571,7 +571,7 @@ const SYN=[
  {b:{u:['l_attack_vehicle','l_bot_bomb'],n:'Predator + Purger',
    w:'Legion finally has a raid. <b>Both move at speed 30</b> — Predator beams at r60, Purger leaps 100 into whatever Predator has already latched onto. Nothing else in the faction can arrive, commit and leave.'},
   a:{u:['l_attack_vehicle','l_bot_bomb','l_tank_swarm'],n:'+ Havoc',
-   w:'The pair arrives at speed 30 and fights at point-blank — Predator at r60, Purger on contact — so anything holding a second rank is untouchable. Havoc adds <b>r115 and a 7-jump chain</b> that reaches the units behind whatever the raid ran into. At <b>speed 15</b> it does not arrive with them; it is the follow-up that makes the raid worth repeating.'}}]},
+   w:'The pair arrives at speed 30 and fights at point-blank — Predator at r60, Purger on contact — so anything holding a second rank is untouchable. Havoc adds <b>r115 and a chain that jumps twice</b>, reaching two units behind whatever the raid ran into. At <b>speed 15</b> it does not arrive with them; it is the follow-up that makes the raid worth repeating.'}}]},
 
 {f:'x',name:'Cross-factory',sets:[
  {b:{u:['bot_grenadier','tank_armor','tank_light_laser'],n:'Grenadier + Inferno + Ant',
