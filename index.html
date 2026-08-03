@@ -157,6 +157,28 @@ table.t2t .u b{font-size:13.5px}
 .dot.est{background:var(--ink);border-color:var(--ink)}
 .dot.proj{background:color-mix(in srgb,var(--ink) 32%,transparent)}
 
+/* ---- synergy pairings ---- */
+.syns{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:18px}
+.syn{background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);overflow:hidden}
+.syn-head{padding:13px 16px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,var(--bg2),var(--panel));
+  display:flex;align-items:center;gap:10px}
+.syn-head .stripe{width:3px;align-self:stretch;min-height:20px;border-radius:2px}
+.syn-mla .stripe{background:var(--mla)}
+.syn-leg .stripe{background:var(--leg)}
+.syn-name{font-weight:640;font-size:15.5px;letter-spacing:-.01em}
+.sset{padding:13px 16px;border-top:1px solid var(--line)}
+.sset:first-of-type{border-top:none}
+.sset-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:8px}
+.sset-head .tile{width:32px;height:32px;border-radius:4px;background:var(--tile);
+  border:1px solid var(--tileLine);display:grid;place-items:center;flex:none}
+.sset-head .tile img{width:26px;height:26px;display:block}
+.sset-head .plus{color:var(--dim);font-family:var(--mono);font-size:13px;margin:0 1px}
+.sset-head .nm{font-weight:620;font-size:13.5px;margin-left:6px}
+.sset p{margin:0;color:var(--ink2);font-size:13.5px}
+.sset p b{color:var(--ink);font-weight:600}
+
 /* ---- 3d ---- */
 .frame{background:linear-gradient(180deg,var(--bg2),var(--panel));border:1px solid var(--line);
   border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
@@ -241,24 +263,12 @@ table.t2t .u b{font-size:13.5px}
 
   <!-- ===== 2 MATCHUPS ===== -->
   <section>
-    <div class="shead"><span class="snum">02</span><h2>Composition matchups</h2></div>
+    <div class="shead"><span class="snum">02</span><h2>Synergy pairings</h2></div>
     <p class="sdek">
-      Read a row: <b>filled = that row's composition wins.</b> Hatched cells are unevaluated, not
-      draws — the matrix shows how much of the board is actually settled. Click any cell for the
-      mechanism.
+      Same-faction combinations that cover each other's failure mode. Each set is 2-4 units; the
+      note says what the pairing solves, not what it beats.
     </p>
-    <div class="frame">
-      <div class="frame-bar"><span class="frame-title">T1 vs T1 · row perspective</span></div>
-      <div class="mx-scroll"><table class="mx" id="mx"></table></div>
-      <div class="legend">
-        <span class="lg"><i class="sw sw-win"></i> row wins</span>
-        <span class="lg"><i class="sw sw-close"></i> close</span>
-        <span class="lg"><i class="sw sw-loss"></i> row loses</span>
-        <span class="lg"><i class="sw sw-na"></i> not evaluated</span>
-        <span class="lg">15 of 26 cross-pairs settled</span>
-      </div>
-      <div class="readout" id="mxOut"></div>
-    </div>
+    <div class="syns" id="syns"></div>
 
     <p class="sdek" style="margin-top:34px">
       <b>The T2 layer isn't another matrix</b> — a T2 unit added to a T1 army should unlock a
@@ -472,87 +482,53 @@ for(const F of FAC){
   d.innerHTML=h+'</div>'; facs.appendChild(d);
 }
 
-/* ===== matchup matrix ===== */
-const C=[
- {id:'ds', n:'Dox + Spark',        f:'mla',cl:'bot', u:['assault_bot','bot_tesla']},
- {id:'dsb',n:'+ Boom',             f:'mla',cl:'bot', u:['assault_bot','bot_tesla','bot_bomb']},
- {id:'ia', n:'Inferno + Ant',      f:'mla',cl:'tank',u:['tank_armor','tank_light_laser']},
- {id:'as', n:'Ant + Stryker',      f:'mla',cl:'tank',u:['tank_light_laser','attack_vehicle']},
- {id:'pl', n:'Peacekeeper + Lancer',f:'leg',cl:'bot', u:['l_assault_bot','l_sniper_bot']},
- {id:'pp', n:'Peacekeeper + Purger',f:'leg',cl:'bot', u:['l_assault_bot','l_bot_bomb']},
- {id:'ms', n:'Maul + Shank',       f:'leg',cl:'tank',u:['l_shotgun_tank','l_tank_shank']},
- {id:'ps', n:'Predator + Shank',   f:'leg',cl:'tank',u:['l_attack_vehicle','l_tank_shank']}];
+/* ===== synergy pairings ===== */
+const SYN=[
+{f:'mla',name:'MLA — Bot Factory',sets:[
+ {u:['assault_bot','bot_tesla'],n:'Dox + Spark',
+  w:'Spark at <b>r80 now sits behind Dox at r75</b> instead of in front of it, so the screen finally works. Dox supplies the bodies and the speed to pick the fight; Spark supplies the only splash in the bot line to punish whatever clumps against it.'},
+ {u:['assault_bot','bot_tesla','bot_bomb'],n:'Dox + Spark + Boom',
+  w:'Covers the brawlers neither of the other two can reach. <b>Boom''s 600 is Maul''s exact HP</b> and takes 60% of an Inferno — and with Spark''s dps cut to 45, Boom <i>is</i> the bot line''s answer to a 1000 hp wall.'},
+ {u:['assault_bot_adv','bot_sniper'],n:'Slammer + Gil-E',
+  w:'Slammer is the body nothing one-shots — 5 shots from Shank, 7 from Ant — so it can walk into defended ground. Gil-E removes the one <b>400–600 hp</b> unit that would stop it, from r220, before the assault starts.'}]},
 
-/* row beats col? win / close / loss / na / self */
-const M={
- ds:{ds:'self',dsb:'self',ia:'loss',as:'loss',pl:'win', pp:'win', ms:'loss',ps:'close'},
- dsb:{ds:'self',dsb:'self',ia:'win', as:'loss',pl:'win', pp:'win', ms:'win', ps:'win'},
- ia:{ds:'win', dsb:'loss',ia:'self',as:'na',  pl:'loss',pp:'na',  ms:'win', ps:'na'},
- as:{ds:'win', dsb:'win', ia:'na',  as:'self',pl:'close',pp:'na', ms:'win', ps:'na'},
- pl:{ds:'loss',dsb:'loss',ia:'win', as:'close',pl:'self',pp:'self',ms:'loss',ps:'na'},
- pp:{ds:'loss',dsb:'loss',ia:'na',  as:'na',  pl:'self',pp:'self',ms:'na',  ps:'na'},
- ms:{ds:'win', dsb:'loss',ia:'loss',as:'loss',pl:'win', pp:'na',  ms:'self',ps:'self'},
- ps:{ds:'close',dsb:'loss',ia:'na', as:'na',  pl:'na',  pp:'na',  ms:'self',ps:'self'}};
+{f:'mla',name:'MLA — Vehicle Factory',sets:[
+ {u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
+  w:'The trap. Ant''s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno''s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone: Ant kills almost nothing, Inferno can never reach anything.'},
+ {u:['tank_armor','tank_light_laser','attack_vehicle'],n:'Inferno + Ant + Stryker',
+  w:'The closed package. Boom is what beats the trap, and <b>Stryker denies Boom at 5× an Ant''s efficiency</b> — one volley per Boom at r95. Stryker isn''t there for Dox, it''s there to protect the toll.'},
+ {u:['land_scout','tank_laser_adv','attack_vehicle'],n:'Skitter + Leveler + Stryker',
+  w:'Skitter''s <b>vision 200 plus radar stealth</b> lets it hold the forward position that feeds Leveler''s r120. Stryker covers the flank that Leveler''s 20°/s turret — <b>9 seconds for a half-turn</b> — physically cannot answer.'}]},
 
-const WHY={
- 'ds|ia':'The tank line withdraws and charges a toll — <b>Inferno collects on the close</b> at 400 dps and 4.44 hp/metal, while Spark needs 8.1 s to cross the gap and never pays it.',
- 'ds|as':'<b>Stryker is the anti-swarm unit</b>, and with no sub-50-range brawler in the composition none of Ant+Stryker\'s metal is wasted. Ant\'s r100 keeps Spark out.',
- 'ds|ms':'<b>Shank is Legion\'s clean answer</b>: r100 outranges both bots, 300 hp survives Spark\'s 160, <b>130 alpha is Spark\'s exact HP</b>, and 60 splash at r3 kills 40 hp Dox. One weapon punishing both halves.',
- 'ds|pl':'Spark\'s <b>ignore_shields</b> deletes the fodder mechanic and 160 alpha one-shots both. <b>Lancer\'s 225 alpha into a 40 hp Dox is 82% waste — 16 effective dps, not 90.</b>',
- 'ds|pp':'Purgers cross Dox\'s 75 m in 2.25 s against roughly <b>26 trigger events per second</b> — the highest density in T1. Trigger rate, not alpha, kills 20 hp bodies.',
- 'ds|ps':'Predator contests the screen properly — r85 and speed 15, the only Legion T1 tank that keeps pace. Close on current numbers.',
- 'dsb|ia':'<b>Boom at speed 40 defeats a speed-10 withdrawal outright.</b> The toll only works if the line can open a gap, and it cannot.',
- 'dsb|as':'<b>The one matchup Boom cannot fix.</b> Stryker kills a Boom with one volley at range 80 — 5× an Ant\'s anti-Boom efficiency, which wastes 76% of an 84-damage shot and fires once per 1.8 s. Deny Boom and the toll is restored.',
- 'dsb|ms':'<b>600 damage is Maul\'s exact HP.</b> 45 metal one-shots 170 — a 3.8:1 trade that removes the wall, after which Shank alone loses.',
- 'dsb|ps':'Same as Maul + Shank without the wall to trade against — Predator\'s 110 hp does not survive contact.',
- 'ia|pl':'<b>Peacekeeper\'s shield absorbs 1117 damage per 1000 metal against Ant</b> and Lancer\'s 225 alpha is correctly sized for 250 hp bodies. Legion bots are anti-tank by construction.',
- 'ia|ms':'Maul is kited at r50 the same way Inferno is kited at r20, and <b>Inferno absorbs Shank reliably</b> even though Ant\'s dps is low. MLA\'s alpha is the right tool against few big bodies.',
- 'as|pl':'Lancer\'s alpha is wasted on 60 hp Strykers, but Peacekeeper\'s shield still taxes Ant heavily. Close.',
- 'as|ms':'Same as Inferno + Ant vs Maul + Shank — Legion\'s splash is wasted on a small number of armoured bodies.',
- 'pl|ms':'Legion mirror: tanks beat bots in a stand-up fight. Maul\'s 3.53 hp/metal is unanswerable by 0.56 hp/metal Lancers.'};
+{f:'leg',name:'Legion — Walker Foundry',sets:[
+ {u:['l_assault_bot','l_sniper_bot'],n:'Peacekeeper + Lancer',
+  w:'Anti-tank by construction. The shield nullifies whole hits, so it eats the big alpha aimed at 70 hp Lancers — <b>1117 damage absorbed vs Ant, 1663 vs Drifter per 1000 metal</b> — while Lancer''s 225 does the killing.'},
+ {u:['l_assault_bot','l_riot_bot'],n:'Peacekeeper + Enforcer',
+  w:'Enforcer is helpless unscreened at r95; Peacekeeper is the screen. It runs both ways — Enforcer''s <b>10 hit events per second</b> is the best anti-shield profile in the game, covering the one thing shields are strong against.'},
+ {u:['l_assault_bot','l_necromancer','l_bot_bomb'],n:'Peacekeeper + Necromancer + Purger',
+  w:'The only pairing that <b>rewards taking losses</b>. Peacekeepers die cheaply and leave wreckage, Necromancer recovers units from it, Purger converts the bodies into damage with a 100-range leap.'}]},
+
+{f:'leg',name:'Legion — Armour Foundry',sets:[
+ {u:['l_shotgun_tank','l_tank_shank'],n:'Maul + Shank',
+  w:'The grind — a plateau rather than a cliff. Maul absorbs at r50 with <b>3.53 hp/metal</b>, Shank clears bodies at r100 with the <b>only splash in Legion T1 that kills a 40 hp Dox</b>. No trigger range to miss.'},
+ {u:['l_tank_heavy_armor','l_tank_laser_adv','l_tank_swarm'],n:'Bubble shield + Scorpion + Havoc',
+  w:'Scorpion locks in and cannot change its mind — <b>speed 8, 3.3 s reversal</b>. The bubble keeps the dense push alive under fire, and Havoc''s chain answers anything that flanks or rushes by reaching past the screen.'},
+ {u:['l_shotgun_tank','l_attack_vehicle'],n:'Maul + Predator',
+  w:'Maul holds ground it can never leave. Predator is the <b>only Legion vehicle that can leave</b> — speed 14, rising to 20 near a target — so it answers the raids and kiters the rest of the line cannot chase.'}]}];
 
 (function(){
-  const tb=document.getElementById('mx'),out=document.getElementById('mxOut');
-  const tile=k=>`<span class="tile"><img src="${ICONS[k]||''}" alt=""></span>`;
-  let head='<thead><tr><th></th>';
-  for(const c of C) head+=`<th><div class="chd">${tile(c.u[0])}<span>${c.n.replace(/ \+ /g,'<br>+ ')}</span></div></th>`;
-  head+='</tr></thead><tbody>';
-  let body='';
-  for(const r of C){
-    body+=`<tr><th><div class="rhd"><span class="stripe s-${r.f}"></span>${tile(r.u[0])}
-      <span class="nm">${r.n}<small>${r.f==='mla'?'MLA':'LEGION'} ${r.cl}</small></span></div></th>`;
-    for(const c of C){
-      const v=M[r.id][c.id];
-      const cls=v==='self'?'self':(v==='na'?'cell na':'cell '+v);
-      body+=`<td class="${cls}" data-r="${r.id}" data-c="${c.id}" data-v="${v}"
-        ${v==='self'||v==='na'?'':'tabindex="0" role="button"'}
-        aria-label="${r.n} vs ${c.n}: ${v}"></td>`;
+  const box=document.getElementById('syns'); if(!box) return;
+  for(const F of SYN){
+    const d=document.createElement('div'); d.className='syn syn-'+F.f;
+    let h=`<div class="syn-head"><span class="stripe"></span><span class="syn-name">${F.name}</span></div>`;
+    for(const s of F.sets){
+      const tiles=s.u.map(k=>`<span class="tile"><img src="${ICONS[k]||''}" alt=""></span>`)
+                      .join('<span class="plus">+</span>');
+      h+=`<div class="sset"><div class="sset-head">${tiles}<span class="nm">${s.n}</span></div>
+          <p>${s.w}</p></div>`;
     }
-    body+='</tr>';
+    d.innerHTML=h; box.appendChild(d);
   }
-  tb.innerHTML=head+body+'</tbody>';
-
-  function show(r,c,v){
-    const R=C.find(x=>x.id===r),K=C.find(x=>x.id===c);
-    const why=WHY[r+'|'+c]||WHY[c+'|'+r]||null;
-    const word=v==='win'?R.n+' wins':(v==='loss'?K.n+' wins':'Close');
-    out.innerHTML=`<div class="ro-head"><span class="ro-v">${word}</span>
-      <span class="ro-name">${R.n} &nbsp;vs&nbsp; ${K.n}</span></div>
-      <p class="ro-why">${why||'<span class="ro-hint">Inferred from the chassis counter structure — not worked through in detail.</span>'}</p>`;
-  }
-  tb.addEventListener('click',e=>{
-    const td=e.target.closest('td.cell'); if(!td||td.classList.contains('na'))return;
-    tb.querySelectorAll('td.sel').forEach(x=>x.classList.remove('sel'));
-    td.classList.add('sel'); show(td.dataset.r,td.dataset.c,td.dataset.v);
-  });
-  tb.addEventListener('keydown',e=>{
-    if(e.key!=='Enter'&&e.key!==' ')return;
-    const td=e.target.closest('td.cell'); if(!td||td.classList.contains('na'))return;
-    e.preventDefault(); td.click();
-  });
-  out.innerHTML=`<p class="ro-why ro-hint">Click a cell. Three of the four chassis pairings are
-    settled: MLA bots beat Legion bots, Legion bots beat MLA tanks, MLA tanks beat Legion tanks.
-    The loop closes because Legion tanks beat MLA bots.</p>`;
 })();
 
 /* ===== T2 capability deltas ===== */
