@@ -388,7 +388,7 @@ table.t2t .u b{font-size:13.5px}
 
       <div class="card flag">
         <h3>T2 must unlock a manoeuvre</h3><p class="role">not scale up</p>
-        <p>Siege, hot-drop, hold ground, revive, advance under fire, counter-battery. <b>Leveler is
+        <p>Siege, zone ground, hold ground, revive, advance under fire, counter-battery. <b>Leveler is
            the only T2 unit that fails this</b> — it's a bigger Ant.</p>
       </div>
       <div class="card">
@@ -538,7 +538,7 @@ const SYN=[
 
 {f:'mla',name:'MLA — Vehicle Factory',
  t2:{u:['tank_laser_adv','tank_heavy_armor','tank_heavy_mortar'],n:'Leveler + Vanguard + Sheller',
-  w:'Break, hot-drop and siege. Covers every range band from 50 to 260 and every job the T1 line cannot do. <b>Cannot answer speed</b> — all three are speed 10, with 9 to 30 second half-turns between them.'},
+  w:'Break, zone and siege. Covers every range band from 50 to 260 and every job the T1 line cannot do. <b>Cannot answer speed</b> — all three are speed 10, with 9 to 30 second half-turns between them.'},
  sets:[
  {b:{u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
    w:'The trap. Ant’s r100 makes standing off unproductive, so the enemy has to enter the 20 m band where Inferno’s <b>400 dps and 4.44 hp/metal</b> collect. Neither half works alone.'},
@@ -570,12 +570,8 @@ const SYN=[
    w:'Adds reach the pair does not have — <b>750 alpha at r130</b> removes a heavy before the lines meet. It cannot change its mind afterwards: speed 8 and a <b>3.3 s reversal</b>, so it needs the pair standing in front of it.'}},
  {b:{u:['l_attack_vehicle','l_bot_bomb'],n:'Predator + Purger',
    w:'Legion finally has a raid. <b>Both move at speed 30</b> — Predator beams at r60, Purger leaps 100 into whatever Predator has already latched onto. Nothing else in the faction can arrive, commit and leave.'},
-  a:{u:['l_attack_vehicle','l_bot_bomb','l_necromancer'],n:'+ Necromancer',
-   w:'A raid that trades bodies wants them back. Necromancer <b>recovers from the wreckage the pair leaves behind</b>, which is the only way a 30-speed suicide pairing stops being a one-way trip.'}},
- {b:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle'],n:'Maul + Shank + Predator',
-   w:'Predator is the <b>only Legion vehicle that can leave</b> — speed 30 at r60 — so the line finally answers raids and kiters it could never chase.'},
-  a:{u:['l_shotgun_tank','l_tank_shank','l_attack_vehicle','l_tank_heavy_armor'],n:'+ Bubble shield',
-   w:'<b>5000 hp at 300 regen</b> over the push, the only thing that lets it cross open ground against artillery. It also sets the pace — Earthshaker is speed 10, so Predator gives up its speed entirely to stay covered.'}}]},
+  a:{u:['l_attack_vehicle','l_bot_bomb','l_tank_swarm'],n:'+ Havoc',
+   w:'The pair arrives at speed 30 and fights at point-blank — Predator at r60, Purger on contact — so anything holding a second rank is untouchable. Havoc adds <b>r115 and a 7-jump chain</b> that reaches the units behind whatever the raid ran into. At <b>speed 15</b> it does not arrive with them; it is the follow-up that makes the raid worth repeating.'}}]},
 
 {f:'x',name:'Cross-factory',sets:[
  {b:{u:['bot_grenadier','tank_armor','tank_light_laser'],n:'Grenadier + Inferno + Ant',
@@ -616,7 +612,7 @@ const T2=[
  ['bot_tactical_missile','Bluehawk','mla','MLA bots','Counter-battery, and <b>ignore_shields</b> at r160','The only MLA answer to an Earthshaker bubble — Sheller loses to its 300 regen/s','est'],
  ['bot_sniper','Gil-E','mla','MLA bots','Deletes one 400–600 hp unit per 5 s from r220','Removes Enforcer, Havoc, Orbweaver or Maul from a fight before it starts','proj'],
  ['tank_laser_adv','Leveler','mla','MLA tanks','Kills 2000 hp+ armour — the T1 line tops out at Inferno\'s 400 dps at r20','Scorpion, Earthshaker and Monstrosity become killable','proj'],
- ['tank_heavy_armor','Vanguard','mla','MLA tanks','Hot-drop; absorbs a base\'s defences','Turns a siege into an assault','proj'],
+ ['tank_heavy_armor','Vanguard','mla','MLA tanks','Zones ground and absorbs a base\'s defences','Denies the space it stands in; turns a siege into an assault','proj'],
  ['tank_heavy_mortar','Sheller','mla','MLA tanks','Outranges everything at 260','But <b>loses to Earthshaker outright</b> — 146 dps per 1000 metal vs 300 regen','est'],
  ['l_riot_bot','Enforcer','leg','Legion bots','Assault chaff-clear and sustained DPS','10 hit events/s is the best anti-shield profile in the game','proj'],
  ['l_bot_artillery','Miniman','leg','Legion bots','Area denial; mines force traverse-waste','<b>Hard counter to Leveler and Sheller</b> — 20–30°/s turrets cannot answer a 2 s mine','est'],
