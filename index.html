@@ -417,7 +417,7 @@ const FAC=[
  ['bot_tesla','Spark','T1','rework','<b>Anti-swarm only.</b> 160 → 90 damage, <b>range 67.5 → 80</b>, 2 s reload kept, splash unchanged. Loses the anti-Inferno job — that was the second role.'],
  ['bot_grenadier','Grenadier','T1','hold','<b>Attrition artillery.</b> 135° arc = can\'t fire retreating. No stat change.'],
  ['bot_aa','Stinger','T1','defer','Air rework.'],
- ['assault_bot_adv','Slammer','T2','rework','<b>Assault.</b> 400 hp, 120 @ rof 3, r100, spd 18 → 8 while firing. Gun deliberately unremarkable — every target class is taken.'],
+ ['assault_bot_adv','Slammer','T2','rework','<b>Fast, durable damage dealer.</b> 400 hp, <b>120 @ rof 3 = 360 dps</b>, r100, spd 18 → 8 while firing.'],
  ['bot_sniper','Gil-E','T2','rework','<b>Ground sniper.</b> Loses air targeting. r200 → <b>220</b>, spd 12 → <b>14</b>, <b>half speed while firing</b>. 600 @ rof 0.2 retained.'],
  ['bot_tactical_missile','Bluehawk','T2','undecided','Role unsettled. Candidates:<br>· Long range, durable and fast AA, no anti-ground?<br>· Long range non-homing missiles, anti-static and anti-ship?<br>· Mid-short range, forces engagements?<br>· Slow / stationary when firing?'],
  ['bot_nanoswarm','Locusts','T2','hold','No change.'],
@@ -491,7 +491,7 @@ const SYN=[
  {u:['assault_bot','bot_bomb'],n:'Dox + Boom',
   w:'Dox screens and picks the fight; Boom converts 45 metal into 600 damage against whatever the screen cannot chew through. <b>600 is Maul’s exact HP</b> and takes 60% of an Inferno — and with Spark’s dps cut to 45, Boom is the bot line’s answer to a wall.'},
  {u:['assault_bot','bot_tesla','assault_bot_adv','bot_sniper'],n:'Dox + Spark + Slammer + Gil-E',
-  w:'Dox screens the approach and Spark clears whatever clumps against it. Slammer is the body nothing one-shots — 5 shots from Shank, 7 from Ant — so it survives contact with defended ground. Gil-E removes the one <b>400–600 hp</b> unit that would stop the assault, from r220, before it starts.'}]},
+  w:'Dox screens the approach and Spark clears whatever clumps against it. Slammer is a fast, durable damage dealer — <b>400 hp at speed 18 with 360 dps</b> — so it reaches defended ground and keeps working once it is there. Gil-E removes the one <b>400–600 hp</b> unit that would stop the assault, from r220, before it starts.'}]},
 
 {f:'mla',name:'MLA — Vehicle Factory',sets:[
  {u:['tank_armor','tank_light_laser'],n:'Inferno + Ant',
@@ -538,7 +538,7 @@ const SYN=[
 
 /* ===== T2 capability deltas ===== */
 const T2=[
- ['assault_bot_adv','Slammer','mla','MLA bots','Provide DPS and survivability','Lets the bot line advance into alpha-heavy defence instead of only raiding','proj'],
+ ['assault_bot_adv','Slammer','mla','MLA bots','Provide DPS and survivability','Gives the bot line a body that can stay in a fight instead of only raiding','proj'],
  ['bot_tactical_missile','Bluehawk','mla','MLA bots','Counter-battery, and <b>ignore_shields</b> at r160','The only MLA answer to an Earthshaker bubble — Sheller loses to its 300 regen/s','est'],
  ['bot_sniper','Gil-E','mla','MLA bots','Deletes one 400–600 hp unit per 5 s from r220','Removes Enforcer, Havoc, Orbweaver or Maul from a fight before it starts','proj'],
  ['tank_laser_adv','Leveler','mla','MLA tanks','Kills 2000 hp+ armour — the T1 line tops out at Inferno\'s 400 dps at r20','Scorpion, Earthshaker and Monstrosity become killable','proj'],
