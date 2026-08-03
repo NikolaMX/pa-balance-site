@@ -488,7 +488,7 @@ const FAC=[
  ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> <b>500 on the primary hit, then 4 jumps at 150 each</b> — 5 targets and 1100 damage per shot.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. 1100 metal, 2000 hp, 750 dmg + 250 splash r5 at r130, speed 8, 3.3 s reversal.'],
  ['l_tank_heavy_armor','Mobile bubble shield','T2','hold',''],
- ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> Fires a <b>clip of 2 shots every 7 s</b> via carpet fire (<span class="inline">carpet_wait_for_full_ammo</span> true) — 2 × 500 = 143 sustained dps, up from 71. Range 260 → <b>280</b>. 2.6 s shell flight.'],
+ ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <span class="inline">target_priorities</span> rewritten to lead with <span class="inline">UNITTYPE_Artillery</span>. <span class="inline">ammo_per_shot</span> <b>7 → 3.5</b> doubles the carpet to <b>2 shots every 7 s</b> — 143 sustained dps, up from 71. Range 260 → <b>280</b>. 2.6 s shell flight.'],
  ['l_hover_tank_adv','Panzer','T2','hold','']]}];
 
 const facs=document.getElementById('facs');
@@ -691,7 +691,7 @@ const U=[
     shot per 7 s = 71.4 sustained dps, not a 5000 dps burst.  Proposed doubles the
     clip (ammo_demand 2) -> 2 x 500 per 7 s = 142.9 dps at 700 metal. */
  {k:'l_sniper_tank',n:'Deathmark',f:'leg',c:'tank',t:2,spd:8,rng:260,hpm:0.250,dpsm:0.071,idx:0.018,
-   lr:1,p:{rng:280,hpm:0.357,dpsm:0.204,idx:0.073}}];
+   lr:1,p:{rng:280,dpsm:0.143,idx:0.036}}];
 
 (function(){
   const cv=document.getElementById('space'),ctx=cv.getContext('2d');
