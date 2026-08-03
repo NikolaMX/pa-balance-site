@@ -290,8 +290,8 @@ table.t2t .u b{font-size:13.5px}
       <div class="frame-bar">
         <span class="frame-title">28 ground-attack units</span>
         <div class="ctl-group">
-          <button class="ctl" data-mode="s" aria-pressed="true">Shipped</button>
-          <button class="ctl warn" data-mode="p" aria-pressed="false">Proposed</button>
+          <button class="ctl" data-mode="s" aria-pressed="false">Shipped</button>
+          <button class="ctl warn" data-mode="p" aria-pressed="true">Proposed</button>
           <span class="ctl-sep"></span>
           <button class="ctl warn" id="lrBtn" aria-pressed="false">Hide long range</button>
           <span class="ctl-sep"></span>
@@ -639,7 +639,7 @@ const U=[
 (function(){
   const cv=document.getElementById('space'),ctx=cv.getContext('2d');
   const imgs={}; U.forEach(u=>{const im=new Image();im.onload=draw;im.src=ICONS[u.k];imgs[u.k]=im;});
-  let az=-0.62,el_=0.44,W=0,H=0,dpr=1,hideLR=false,tier='all',mode='s',zoom=1;
+  let az=-0.62,el_=0.44,W=0,H=0,dpr=1,hideLR=false,tier='all',mode='p',zoom=1;
   let view='free',panX=0,panY=0;
   const LO=Math.log10(0.008),HI=Math.log10(9),SPAN=HI-LO;
   /* proposed value if present, else shipped. spd is always base speed. */
