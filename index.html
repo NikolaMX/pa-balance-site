@@ -459,7 +459,7 @@ const FAC=[
  ['tank_laser_adv','Leveler','T2','tweak','<b>Break.</b> Rate of fire <b>1 → 0.75</b>, splash 300 → <b>250</b> (splash ≤ damage rule). Damage and hp untouched.'],
  ['tank_heavy_armor','Vanguard','T2','hold','<b>Superheavy zoning unit.</b> Devastating close-range damage.'],
  ['tank_heavy_mortar','Sheller','T2','open','<b>Attrition artillery. Weak against shields</b> — 146 dps per 1000 metal against Earthshaker\'s 300 regen/s.'],
- ['tank_flak','Storm','T2','rework','<b>High RoF, inaccurate flak.</b> Keeps the shipped flak shell. The <b>4 rounds fire in rapid succession</b> instead of one simultaneous volley, <b>rof 1.0 → 0.2</b>. Model: turret yaw enabled (shipped is <span class="inline">yaw 0/0</span>, pitch-only).'],
+ ['tank_flak','Storm','T2','rework','<b>High RoF, inaccurate flak.</b> 400 → <b>800 hp</b>. Muzzles cycle instead of firing together (<span class="inline">projectiles_per_fire</span> 4 → 1) at <b>rof 1 → 6</b>, with <b>6 rounds per carpet</b> on a 6000-energy clip and ~3 s to refill. Shell <b>15 → 100 damage</b>, splash <b>10 → 100</b> but radius <b>80 → 10</b>. Accuracy: <span class="inline">firing_standard_deviation</span> 12.5. Turret gains yaw (0 → 360°/s, range 0 → 180).'],
  ['tank_jammer','Nyx','T2','hold','<b>Mobile radar jammer.</b>']]},
 
 {f:'leg',name:'Legion — Walker Foundry',sub:'11 units · T1 + T2',
@@ -488,7 +488,7 @@ const FAC=[
  ['l_tank_swarm','Havoc','T2','tweak','<b>Chain bypasses meat-shields to do damage to softer targets behind them.</b> <b>500 on the primary hit, then 4 jumps at 150 each</b> — 5 targets and 1100 damage per shot.'],
  ['l_tank_laser_adv','Scorpion','T2','undecided','Role unsettled. 1100 metal, 2000 hp, 750 dmg + 250 splash r5 at r130, speed 8, 3.3 s reversal.'],
  ['l_tank_heavy_armor','Mobile bubble shield','T2','hold',''],
- ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> Fires a <b>clip of 2 shots every 7 s</b> via carpet fire (<span class="inline">wait_for_carpet_fire</span> true) — 2 × 500 = 143 sustained dps, up from 71. Range 260 → <b>280</b>. 2.6 s shell flight.'],
+ ['l_sniper_tank','Deathmark','T2','rework','<b>Counter-artillery.</b> <b>Prioritises artillery and support.</b> Fires a <b>clip of 2 shots every 7 s</b> via carpet fire (<span class="inline">carpet_wait_for_full_ammo</span> true) — 2 × 500 = 143 sustained dps, up from 71. Range 260 → <b>280</b>. 2.6 s shell flight.'],
  ['l_hover_tank_adv','Panzer','T2','hold','']]}];
 
 const facs=document.getElementById('facs');
