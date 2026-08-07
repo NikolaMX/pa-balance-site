@@ -237,8 +237,8 @@ table.t2t .u b{font-size:13.5px}
 .lg{display:flex;align-items:center;gap:8px}
 .lg svg{display:block;overflow:visible}
 .stage{position:relative;background:var(--bg2)}
-#space{display:block;width:100%;height:700px;touch-action:none;cursor:grab}
-#space.drag{cursor:grabbing}
+#space,#spaceAir{display:block;width:100%;height:820px;touch-action:none;cursor:grab}
+#space.drag,#spaceAir.drag{cursor:grabbing}
 .hint{position:absolute;left:16px;bottom:14px;pointer-events:none;font-family:var(--mono);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 
@@ -815,6 +815,7 @@ const U=[
  {k:'bot_tactical_missile',n:'Bluehawk',f:'mla',c:'bot',t:2,spd:12,rng:160,hpm:1.143,dpsm:0.150,
    idx:0.171,lr:1,und:1},
  {k:'bot_nanoswarm',n:'Locusts',f:'mla',c:'bot',t:2,spd:30,rng:30,hpm:0.320,dpsm:0.400,idx:0.128},
+ {k:'bot_support_commander',n:'Colonel',f:'mla',c:'bot',t:2,spd:12,rng:100,hpm:1.333,dpsm:0.067,idx:0.089},
  {k:'tank_laser_adv',n:'Leveler',f:'mla',c:'tank',t:2,spd:10,rng:120,hpm:1.625,dpsm:0.625,idx:1.016,
    p:{dpsm:0.469,idx:0.762}},
  {k:'tank_heavy_armor',n:'Vanguard',f:'mla',c:'tank',t:2,spd:10,rng:50,hpm:3.333,dpsm:0.667,idx:2.222},
@@ -889,7 +890,7 @@ const U=[
   function proj(x,y,z){
     const X=x-.5,Y=y-.5,Z=z-.5,ca=Math.cos(az),sa=Math.sin(az);
     const x1=X*ca-Y*sa,y1=X*sa+Y*ca,ce=Math.cos(el_),se=Math.sin(el_);
-    const S=Math.min(W,H)*.72*zoom;
+    const S=Math.min(W,H)*.90*zoom;
     return{sx:W/2+panX+x1*S,sy:H/2+panY+(-Z*ce+y1*se)*S,d:y1*ce+Z*se};
   }
   function resize(){dpr=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
@@ -1053,20 +1054,21 @@ const FACA=[
  rows:[
  ['air_scout','Firefly','T1','hold','<b>Scout.</b> 100 metal, 85 hp, speed 90, no weapon.'],
  ['fighter','Hummingbird','T1','rework','<b>Interceptor.</b> Contests early air, universal attrition. <b>80 → 60 damage</b>, <b>120 → 130 hp</b>, rof 1.0, r100, seeking. Speed 90, <b>60 in combat</b>. 3-shot dogfights, 2-shot bomber kills.'],
- ['solar_drone','Icarus','T1','rework','<b>Anti-air anti-swarm battery + light economy.</b> <b>150 → 200 metal</b>, 50 hp, <b>instant chain beam 40 per hit × (1 + 3 chains) = 160 per volley</b>, rof 1.0, <b>r105 → 120</b>, speed 50. Energy <b>+150 idle, −600 net while firing</b>. Air only.'],
- ['bomber','Bumblebee','T1','tweak','<b>Anti-swarm carpet bomber.</b> <b>splash 75 → 50</b>; direct stays 75, radius 10, velocity 15. One-shots a 40 hp Dox; Stryker needs 2, Spinner 3, a 250 hp tank 5.'],
+ ['solar_drone','Icarus','T1','rework','<b>Anti-air anti-swarm battery + light economy.</b> Already a chain beam on main: <b>20 damage, 3 jumps, jump range 30</b>, r105, rof 10 but energy-gated to <b>~0.67 volleys per second</b> (900 capacity, 450 per shot, 300/s demand) — about <b>53 dps aggregate</b>. 150 metal, 50 hp, speed 50, produces <b>175 energy</b>.<br>Proposed: <b>150 → 200 metal</b>, <b>20 → 40 damage per hit</b> = <b>160 per volley</b> at rof 1.0, <b>r105 → 120</b>, energy <b>+150 idle, −600 net while firing</b>.'],
+ ['bomber','Bumblebee','T1','tweak','<b>Anti-swarm carpet bomber.</b> <b>splash 75 → 50</b> and <b>splash radius 10 → 12</b>; direct stays 75, velocity 15. One-shots a 40 hp Dox; Stryker needs 2, Spinner 3, a 250 hp tank 5.'],
  ['transport','Pelican','T1','rework','<b>Ghetto gunship + logistics + drop-ship.</b> Carries <b>1 unit that fires from inside</b> — weak sustained anti-ground. ~140 metal, 100 hp, speed 70, <b>−25% on the drop approach</b>. Cargo always dies with it.'],
  ['fighter_adv','Phoenix','T2','rework','<b>Air superiority anchor.</b> <b>150 damage</b> one-shots a 130 hp fighter; <b>240 → 360 hp</b> makes Phoenix duels 3 shots. <b>rof 3 → ~1</b>, r120, speed 80 / 55. Low dps per metal, so it grinds durable bombers badly.'],
  ['gunship','Kestrel','T2','rework','<b>Mobile raider.</b> Sustained single-target, hit and run. 300 hp, <b>80 → 160 dps</b> (2 guns), r60, speed 70 / <b>~52 while firing</b>. Ground and sea only.'],
  ['strafer','Horsefly','T2','rework','<b>Escort tank + CAS + anti-slow-heavy-air.</b> Soaks AA and fighter fire for bombers. <b>1250 → ~1400 hp</b>, ballistic + r3 AoE, rof 8, r150, speed 70 / <b>87.5 strafing</b>. Ballistic whiffs fast fighters.'],
  ['bomber_adv','Hornet','T2','rework','<b>Standoff anti-high-value.</b> One <b>1000-damage shield-ignoring shot at r190</b> — out-ranges every AA turret. 600 hp, speed 30 / <b>15 to settle and snipe</b>. Fix delivery reliability, not durability.'],
  ['bomber_heavy','Wyrm','T2','tweak','<b>Dedicated anti-structure siege.</b> 3300 metal, 3000 hp, speed 30, <b>2500 direct + 2500 splash r20</b>, velocity 15. Mobile armies dodge it.'],
+ ['support_platform','Angel','T2','hold','<b>Anti-air / anti-orbital support platform.</b> 4000 metal, 1200 hp, speed 40. <b>400 damage at rof 5 = 2000 dps</b> at r160, air and orbital only. Second tool is a r120 utility beam.'],
  ['titan_air','Zeus','T2','hold','<b>Flying fortress.</b> 30000 metal, 12000 hp, all-layer 825 dps at r100, r50 splash, <b>5000 death PBAOE</b>.']]},
 
 {f:'mla',name:'MLA — Ground anti-air',sub:'6 units · mobile + static',
  doc:'<b>A persistent attrition brake on air control, not a wall.</b>',
  rows:[
- ['bot_aa','Stinger','T1','rework','<b>Committed fab-guard.</b> Reliable early defence against lone threats. <b>30 → 50 damage</b>, <b>rof 0.5 → 0.8</b> (40 dps), r75, velocity ~120, seeking. Speed 16 roaming / <b>7 in combat</b> — it plants when it engages.'],
+ ['bot_aa','Stinger','T1','rework','<b>Committed fab-guard.</b> Reliable early defence against lone threats. Main branch is <b>30 damage × 2 pods at rof 0.5 = 30 dps</b>, r75, velocity 120, 110 metal, 55 hp, speed 18, and already carries <span class="inline">firing_move_speed_multiplier</span> 0.45.<br>Proposed: <b>50 damage at rof 0.8 = 40 dps</b>, speed 18 → 16 roaming and <b>7 in combat</b>. <b>Open:</b> 40 dps only works at one projectile per fire — the two pods currently double it.'],
  ['aa_missile_vehicle','Spinner','T1','hold','<b>Mobile army umbrella.</b> Longest T1 AA range at 130, 150 metal, 160 hp, speed 10, ~60 dps seeking with tiny splash. Target-rich profile: high rof, low damage.'],
  ['attack_vehicle','Stryker','T1','tweak','<b>Incidental AA.</b> Only MLA vehicle that hits air. Ballistic at velocity 140 — zones Hornet and Wyrm reliably, <b>whiffs fast fighters</b>. 95 metal, 125 hp, 30 dps, r90.'],
  ['air_defense','Galata Turret','T1','rework','<b>Reliable wall.</b> Single-target workhorse and durable deterrent. <b>25 → 50 damage</b>, <b>rof 4 → 2</b> (100 dps), <b>1000 → ~1200 hp</b>, r150, velocity ~150, 225 metal. Kills a bomber in ~1 s, a fighter in ~1.3 s.'],
@@ -1127,6 +1129,7 @@ const CAPA=[
  ['gunship','Kestrel','mla','MLA air','T2','Sustained single-target hit and run','Picks off what bombers cannot reach','proj'],
  ['strafer','Horsefly','mla','MLA air','T2','Soaks AA and fighter fire for bombers','Ballistic hits slow durable air, whiffs fighters','est'],
  ['bomber_adv','Hornet','mla','MLA air','T2','1000 shield-ignoring damage from r190','Out-ranges every AA turret; only Gil-E or air answers it','proj'],
+ ['support_platform','Angel','mla','MLA air','T2','2000 dps against air and orbital at r160','The only unit that answers an orbital layer and an air blob with one gun','est'],
  ['bomber_heavy','Wyrm','mla','MLA air','T2','Flattens static targets in one pass','Mobile armies dodge the velocity-15 bombs','proj'],
  ['bot_aa','Stinger','mla','MLA AA','T1','Guards fabs against lone air','Overkills swarms, so it does not scale','proj'],
  ['aa_missile_vehicle','Spinner','mla','MLA AA','T1','Longest T1 AA range at 130','Umbrella for a moving army; too slow to chase','proj'],
@@ -1165,7 +1168,7 @@ const UA=[
  {k:'air_scout',n:'Firefly',f:'mla',c:'air',t:1,spd:90,rng:0,hpm:0.850,dpsm:null,idx:null},
  {k:'fighter',n:'Hummingbird',f:'mla',c:'air',t:1,spd:90,rng:100,hpm:0.545,dpsm:0.364,idx:0.198,
    p:{hpm:0.591,dpsm:0.273,idx:0.161}},
- {k:'solar_drone',n:'Icarus',f:'mla',c:'air',t:1,spd:50,rng:105,hpm:0.333,dpsm:0.133,idx:0.044,
+ {k:'solar_drone',n:'Icarus',f:'mla',c:'air',t:1,spd:50,rng:105,hpm:0.333,dpsm:0.356,idx:0.119,
    p:{rng:120,hpm:0.250,dpsm:0.800,idx:0.200}},
  {k:'bomber',n:'Bumblebee',f:'mla',c:'air',t:1,spd:75,rng:10,hpm:0.313,dpsm:1.758,idx:0.549},
  {k:'transport',n:'Pelican',f:'mla',c:'air',t:1,spd:70,rng:0,hpm:0.893,dpsm:null,idx:null},
@@ -1238,7 +1241,7 @@ const UA=[
   function proj(x,y,z){
     const X=x-.5,Y=y-.5,Z=z-.5,ca=Math.cos(az),sa=Math.sin(az);
     const x1=X*ca-Y*sa,y1=X*sa+Y*ca,ce=Math.cos(el_),se=Math.sin(el_);
-    const S=Math.min(W,H)*.72*zoom;
+    const S=Math.min(W,H)*.90*zoom;
     return{sx:W/2+panX+x1*S,sy:H/2+panY+(-Z*ce+y1*se)*S,d:y1*ce+Z*se};
   }
   function resize(){dpr=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
