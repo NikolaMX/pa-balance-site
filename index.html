@@ -237,8 +237,8 @@ table.t2t .u b{font-size:13.5px}
 .lg{display:flex;align-items:center;gap:8px}
 .lg svg{display:block;overflow:visible}
 .stage{position:relative;background:var(--bg2)}
-#space,#spaceAir{display:block;width:100%;height:820px;touch-action:none;cursor:grab}
-#space.drag,#spaceAir.drag{cursor:grabbing}
+#space,#spaceAir,#spaceAA{display:block;width:100%;height:820px;touch-action:none;cursor:grab}
+#space.drag,#spaceAir.drag,#spaceAA.drag{cursor:grabbing}
 .hint{position:absolute;left:16px;bottom:14px;pointer-events:none;font-family:var(--mono);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 
@@ -471,26 +471,21 @@ table.t2t .u b{font-size:13.5px}
     <div class="t2wrap"><table class="t2" id="capAir"></table></div>
   </section>
 
-  <!-- ===== A3 UNIT SPACE ===== -->
+  <!-- ===== A3 AIRCRAFT SPACE ===== -->
   <section>
-    <div class="shead"><span class="snum">03</span><h2 id="spaceTitleAir">Unit space</h2></div>
+    <div class="shead"><span class="snum">03</span><h2 id="spaceTitleAir">Aircraft space</h2></div>
     <p class="sdek">
-      Same five variables as the land chart. <span class="inline">power = hp/metal × dps/metal</span>.
-      Speed runs to 100 here rather than 40. Range is the <b>anti-air</b> weapon for AA units and
-      the <b>primary</b> weapon for aircraft. Units with no weapon (scouts, transports, carriers)
-      chart at the floor and read <span class="inline">no gun</span>.
-      Scroll to zoom.
+      Aircraft only. <span class="inline">power = hp/metal &times; dps/metal</span>; the other two axes
+      are its factors. Speed runs to 100. Range is the primary weapon &mdash; bombers read 10 because
+      they drop on top of the target. Units with no weapon chart at the floor and read
+      <span class="inline">no gun</span>. Scroll to zoom.
     </p>
-    <div class="frame">
+    <div class="frame" id="frameAir">
       <div class="frame-bar">
         <span class="frame-title" id="uCountAir">units</span>
         <div class="ctl-group">
           <button class="ctl warn" data-amode="s" aria-pressed="false">Old</button>
           <button class="ctl" data-amode="p" aria-pressed="true">Proposed</button>
-          <span class="ctl-sep"></span>
-          <button class="ctl" data-aclass="all" aria-pressed="true">All</button>
-          <button class="ctl" data-aclass="air" aria-pressed="false">Aircraft</button>
-          <button class="ctl" data-aclass="aa" aria-pressed="false">Ground AA</button>
           <span class="ctl-sep"></span>
           <button class="ctl" data-atier="all" aria-pressed="true">T1+T2</button>
           <button class="ctl" data-atier="1" aria-pressed="false">T1</button>
@@ -498,40 +493,86 @@ table.t2t .u b{font-size:13.5px}
           <span class="ctl-sep"></span>
           <button class="ctl warn" id="ttBtn" aria-pressed="true">Hide titans</button>
           <span class="ctl-sep"></span>
-          <button class="ctl" id="zOutA" aria-label="Zoom out">−</button>
+          <button class="ctl" id="zOutA" aria-label="Zoom out">&minus;</button>
           <button class="ctl" id="zInA" aria-label="Zoom in">+</button>
           <button class="ctl" id="zRstA">Reset</button>
         </div>
       </div>
       <div class="frame-bar">
-        <span class="frame-title">Axes — any 3 of 5</span>
+        <span class="frame-title">Axes &mdash; any 3 of 5</span>
         <div class="ctl-group">
-          <label class="axsel">X <select id="axXA"></select></label>
-          <label class="axsel">Y <select id="axYA"></select></label>
-          <label class="axsel">Z <select id="axZA"></select></label>
+          <label class="axsel">X <select data-ax="x"></select></label>
+          <label class="axsel">Y <select data-ax="y"></select></label>
+          <label class="axsel">Z <select data-ax="z"></select></label>
           <span class="ctl-sep"></span>
           <button class="ctl" data-aview="free" aria-pressed="true">Free</button>
-          <button class="ctl" data-aview="sp" aria-pressed="false">X × Z</button>
-          <button class="ctl" data-aview="rp" aria-pressed="false">Y × Z</button>
-          <button class="ctl" data-aview="sr" aria-pressed="false">X × Y</button>
+          <button class="ctl" data-aview="sp" aria-pressed="false">X &times; Z</button>
+          <button class="ctl" data-aview="rp" aria-pressed="false">Y &times; Z</button>
+          <button class="ctl" data-aview="sr" aria-pressed="false">X &times; Y</button>
         </div>
       </div>
-      <div class="stage"><canvas id="spaceAir"></canvas><span class="hint" id="dragHintAir">drag to rotate · scroll to zoom</span></div>
+      <div class="stage"><canvas id="spaceAir"></canvas><span class="hint" id="dragHintAir">drag to rotate &middot; scroll to zoom</span></div>
       <div class="legend">
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--mla);stroke-width:2"/></svg> MLA</span>
         <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--leg);stroke-width:2"/></svg> Legion</span>
         <span class="lg"><svg width="14" height="12"><circle cx="6" cy="6" r="5.4" style="fill:none;stroke:var(--dim);stroke-width:1.6"/></svg> aircraft</span>
+        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> old value &mdash; differs from the proposal</span>
+        <span class="lg">power, hp/metal and dps/metal axes are log &middot; <b>sustained</b> dps &middot; <b>base</b> speed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== A4 GROUND AA SPACE ===== -->
+  <section>
+    <div class="shead"><span class="snum">04</span><h2 id="spaceTitleAA">Ground anti-air space</h2></div>
+    <p class="sdek">
+      Ground anti-air only, mobile and static. Speed runs to 20 and the static turrets sit at 0.
+      Range is the <b>anti-air</b> weapon. Stryker and Gil-E are included because they shoot air,
+      even though neither is a dedicated AA unit. Scroll to zoom.
+    </p>
+    <div class="frame" id="frameAA">
+      <div class="frame-bar">
+        <span class="frame-title" id="uCountAA">units</span>
+        <div class="ctl-group">
+          <button class="ctl warn" data-amode="s" aria-pressed="false">Old</button>
+          <button class="ctl" data-amode="p" aria-pressed="true">Proposed</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" data-atier="all" aria-pressed="true">T1+T2</button>
+          <button class="ctl" data-atier="1" aria-pressed="false">T1</button>
+          <button class="ctl" data-atier="2" aria-pressed="false">T2</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="zOutB" aria-label="Zoom out">&minus;</button>
+          <button class="ctl" id="zInB" aria-label="Zoom in">+</button>
+          <button class="ctl" id="zRstB">Reset</button>
+        </div>
+      </div>
+      <div class="frame-bar">
+        <span class="frame-title">Axes &mdash; any 3 of 5</span>
+        <div class="ctl-group">
+          <label class="axsel">X <select data-ax="x"></select></label>
+          <label class="axsel">Y <select data-ax="y"></select></label>
+          <label class="axsel">Z <select data-ax="z"></select></label>
+          <span class="ctl-sep"></span>
+          <button class="ctl" data-aview="free" aria-pressed="true">Free</button>
+          <button class="ctl" data-aview="sp" aria-pressed="false">X &times; Z</button>
+          <button class="ctl" data-aview="rp" aria-pressed="false">Y &times; Z</button>
+          <button class="ctl" data-aview="sr" aria-pressed="false">X &times; Y</button>
+        </div>
+      </div>
+      <div class="stage"><canvas id="spaceAA"></canvas><span class="hint" id="dragHintAA">drag to rotate &middot; scroll to zoom</span></div>
+      <div class="legend">
+        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--mla);stroke-width:2"/></svg> MLA</span>
+        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--leg);stroke-width:2"/></svg> Legion</span>
         <span class="lg"><svg width="14" height="12"><rect x="1" y="1" width="10" height="10" rx="2" style="fill:none;stroke:var(--dim);stroke-width:1.6"/></svg> ground AA</span>
-        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> old value — differs from the proposal</span>
-        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--danger);stroke-width:2.6"/></svg> role undecided</span>
-        <span class="lg">power, hp/metal and dps/metal axes are log · <b>sustained</b> dps · <b>base</b> speed</span>
+        <span class="lg"><svg width="12" height="12"><circle cx="6" cy="6" r="5" style="fill:none;stroke:var(--flag);stroke-width:2.6"/></svg> old value &mdash; differs from the proposal</span>
+        <span class="lg">power, hp/metal and dps/metal axes are log &middot; <b>sustained</b> dps &middot; <b>base</b> speed</span>
       </div>
     </div>
   </section>
 
   <!-- ===== A4 RULES ===== -->
   <section>
-    <div class="shead"><span class="snum">04</span><h2>Rules established</h2></div>
+    <div class="shead"><span class="snum">05</span><h2>Rules established</h2></div>
     <p class="sdek">Constraints applied to every air and AA proposal.</p>
     <div class="cards">
       <div class="card">
@@ -562,7 +603,7 @@ table.t2t .u b{font-size:13.5px}
 
   <!-- ===== A5 OPEN ===== -->
   <section>
-    <div class="shead"><span class="snum">05</span><h2>Still open</h2></div>
+    <div class="shead"><span class="snum">06</span><h2>Still open</h2></div>
     <div class="cards">
       <div class="card open">
         <h3>Legion air and AA</h3><p class="role">no role pass yet</p>
@@ -1216,24 +1257,25 @@ const UA=[
  {k:'l_hover_tank_adv',n:'Panzer',f:'leg',c:'aa',t:2,spd:14,rng:180,hpm:0.167,dpsm:0.375,idx:0.063},
  {k:'l_air_defense_adv',n:'Archer',f:'leg',c:'aa',t:2,spd:0,rng:140,hpm:3.333,dpsm:0.111,idx:0.370}];
 
-(function(){
-  const cv=document.getElementById('spaceAir'); if(!cv) return;
+/* One chart builder, instantiated once for aircraft and once for ground AA.
+   All controls are looked up INSIDE the chart's own frame, so the two never
+   fight over the same data-attribute.                                        */
+function makeSpaceChart(cfg){
+  const frame=document.getElementById(cfg.frame); if(!frame) return null;
+  const cv=document.getElementById(cfg.canvas); if(!cv) return null;
   const ctx=cv.getContext('2d');
-  const imgs={}; UA.forEach(u=>{const im=new Image();im.onload=draw;im.src=ICONS[u.k]||'';imgs[u.k]=im;});
-  let az=-0.62,el_=0.44,W=0,H=0,dpr=1,cls='all',tier='all',mode='p',zoom=1,hideTT=true;
+  const DATA=UA.filter(cfg.pick);
+  const imgs={}; DATA.forEach(u=>{const im=new Image();im.onload=draw;im.src=ICONS[u.k]||'';imgs[u.k]=im;});
+  let az=-0.62,el_=0.44,W=0,H=0,dpr=1,tier='all',mode='p',zoom=1,hideTT=!!cfg.titans;
   let view='free',panX=0,panY=0;
-  const AXDEF={
-    spd :{name:'SPEED',     lin:100,        ticks:[0,25,50,75,100]},
-    rng :{name:'RANGE',     lin:300,        ticks:[0,75,150,225,300]},
-    idx :{name:'POWER',     log:[0.008,6],  ticks:[0.01,0.1,1,5]},
-    hpm :{name:'HP/METAL',  log:[0.1,6],    ticks:[0.1,0.5,1,2,5]},
-    dpsm:{name:'DPS/METAL', log:[0.02,2],   ticks:[0.02,0.1,0.5,1,2]}};
+  const AXDEF=cfg.axes;
   const AXKEYS=['spd','rng','idx','hpm','dpsm'];
   let axis={x:'spd',y:'rng',z:'idx'};
   const V=(u,f)=>(mode==='p'&&u.p&&u.p[f]!==undefined)?u.p[f]:u[f];
   const chg=u=>mode==='s'&&!!u.p;
-  const shown=()=>UA.filter(u=>(cls==='all'||u.c===cls)&&(tier==='all'||u.t==+tier)&&!(hideTT&&u.tt));
+  const shown=()=>DATA.filter(u=>(tier==='all'||u.t==+tier)&&!(hideTT&&u.tt));
   const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const Q=s=>frame.querySelectorAll(s);
   function normFor(k){
     const A=AXDEF[k]; if(!A)return()=>0;
     const cl=t=>Math.max(0,Math.min(1,t));
@@ -1257,8 +1299,8 @@ const UA=[
       MONO=cssv('--mono'),SANS=cssv('--sans');
     const NX=normFor(axis.x),NY=normFor(axis.y),NZ=normFor(axis.z);
     const nx=u=>NX(V(u,axis.x)),ny=u=>NY(V(u,axis.y)),nz=u=>NZ(V(u,axis.z));
-    const uc=document.getElementById('uCountAir');
-    if(uc)uc.textContent=shown().length+' air & anti-air units';
+    const uc=document.getElementById(cfg.count);
+    if(uc)uc.textContent=shown().length+' '+cfg.noun;
     ctx.strokeStyle=line;ctx.lineWidth=1;ctx.globalAlpha=.5;
     for(let i=0;i<=4;i++){const t=i/4;let a=proj(t,0,0),b=proj(t,1,0);
       ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);ctx.stroke();
@@ -1310,65 +1352,80 @@ const UA=[
   window.addEventListener('pointerup',()=>{dragging=false;cv.classList.remove('drag');});
   function setView(n){
     view=n; panX=0; panY=0;
-    document.querySelectorAll('[data-aview]').forEach(b=>
-      b.setAttribute('aria-pressed',String(b.dataset.aview===n)));
-    const hn=document.getElementById('dragHintAir');
+    Q('[data-aview]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.aview===n)));
+    const hn=document.getElementById(cfg.hint);
     if(hn) hn.textContent=(n==='free'?'drag to rotate · scroll to zoom':'drag to pan · scroll to zoom');
     cv.style.cursor=(n==='free'?'grab':'move');
   }
-  document.querySelectorAll('[data-aview]').forEach(b=>b.addEventListener('click',()=>{
+  Q('[data-aview]').forEach(b=>b.addEventListener('click',()=>{
     const v=b.dataset.aview;
     if(v==='sp'){az=0;el_=0;}else if(v==='rp'){az=-Math.PI/2;el_=0;}
     else if(v==='sr'){az=0;el_=Math.PI/2-.02;}
     else{az=-.62;el_=.44;zoom=1;}
     setView(v);draw();}));
-  document.querySelectorAll('[data-aclass]').forEach(b=>b.addEventListener('click',()=>{
-    cls=b.dataset.aclass;
-    document.querySelectorAll('[data-aclass]').forEach(o=>
-      o.setAttribute('aria-pressed',String(o.dataset.aclass===cls)));draw();}));
-  document.querySelectorAll('[data-atier]').forEach(b=>b.addEventListener('click',()=>{
+  Q('[data-atier]').forEach(b=>b.addEventListener('click',()=>{
     tier=b.dataset.atier;
-    document.querySelectorAll('[data-atier]').forEach(o=>
-      o.setAttribute('aria-pressed',String(o.dataset.atier===tier)));draw();}));
-  document.querySelectorAll('[data-amode]').forEach(b=>b.addEventListener('click',()=>{
+    Q('[data-atier]').forEach(o=>o.setAttribute('aria-pressed',String(o.dataset.atier===tier)));draw();}));
+  Q('[data-amode]').forEach(b=>b.addEventListener('click',()=>{
     mode=b.dataset.amode;
-    document.querySelectorAll('[data-amode]').forEach(o=>
-      o.setAttribute('aria-pressed',String(o.dataset.amode===mode)));draw();}));
+    Q('[data-amode]').forEach(o=>o.setAttribute('aria-pressed',String(o.dataset.amode===mode)));draw();}));
   const ttb=document.getElementById('ttBtn');
-  if(ttb) ttb.addEventListener('click',e=>{hideTT=!hideTT;
+  if(ttb&&cfg.titans) ttb.addEventListener('click',e=>{hideTT=!hideTT;
     e.currentTarget.setAttribute('aria-pressed',String(hideTT));draw();});
 
   function syncAxisUI(){
-    for(const a of['x','y','z']){
-      const s=document.getElementById('ax'+a.toUpperCase()+'A'); if(!s)continue;
+    Q('select[data-ax]').forEach(s=>{
+      const a=s.dataset.ax;
       let h='<option value=""'+(axis[a]===''?' selected':'')+'>none</option>';
       for(const k of AXKEYS)
         h+='<option value="'+k+'"'+(axis[a]===k?' selected':'')+'>'+AXDEF[k].name+'</option>';
       s.innerHTML=h; s.classList.toggle('on',!!axis[a]);
-    }
-    const t=document.getElementById('spaceTitleAir');
-    if(t)t.textContent='Unit space — '+['x','y','z']
+    });
+    const t=document.getElementById(cfg.title);
+    if(t)t.textContent=cfg.label+' — '+['x','y','z']
       .map(a=>AXDEF[axis[a]]?AXDEF[axis[a]].name.toLowerCase():'—').join(' × ');
   }
   function setAxis(a,k){
     if(k)for(const o of['x','y','z'])if(o!==a&&axis[o]===k)axis[o]=axis[a];
     axis[a]=k;syncAxisUI();draw();
   }
-  ['x','y','z'].forEach(a=>{const s=document.getElementById('ax'+a.toUpperCase()+'A');
-    if(s)s.addEventListener('change',e=>setAxis(a,e.target.value));});
+  Q('select[data-ax]').forEach(s=>s.addEventListener('change',e=>setAxis(s.dataset.ax,e.target.value)));
   syncAxisUI();
 
   const setZoom=z=>{zoom=Math.max(.35,Math.min(4,z));draw();};
   cv.addEventListener('wheel',e=>{e.preventDefault();
     setZoom(zoom*(e.deltaY<0?1.12:1/1.12));},{passive:false});
-  document.getElementById('zInA').addEventListener('click',()=>setZoom(zoom*1.25));
-  document.getElementById('zOutA').addEventListener('click',()=>setZoom(zoom/1.25));
-  document.getElementById('zRstA').addEventListener('click',()=>{
-    zoom=1;az=-.62;el_=.44;setView('free');draw();});
+  const zi=document.getElementById('zIn'+cfg.zoom),zo=document.getElementById('zOut'+cfg.zoom),
+        zr=document.getElementById('zRst'+cfg.zoom);
+  if(zi) zi.addEventListener('click',()=>setZoom(zoom*1.25));
+  if(zo) zo.addEventListener('click',()=>setZoom(zoom/1.25));
+  if(zr) zr.addEventListener('click',()=>{zoom=1;az=-.62;el_=.44;setView('free');draw();});
   new ResizeObserver(resize).observe(cv);
-  window.__airResize=resize;
   resize();
-})();
+  return resize;
+}
+
+const AIR_RESIZE=makeSpaceChart({
+  frame:'frameAir',canvas:'spaceAir',title:'spaceTitleAir',count:'uCountAir',hint:'dragHintAir',
+  zoom:'A',label:'Aircraft space',noun:'aircraft',titans:true,
+  pick:u=>u.c==='air',
+  axes:{
+    spd :{name:'SPEED',     lin:100,       ticks:[0,25,50,75,100]},
+    rng :{name:'RANGE',     lin:300,       ticks:[0,75,150,225,300]},
+    idx :{name:'POWER',     log:[0.008,1], ticks:[0.01,0.05,0.2,1]},
+    hpm :{name:'HP/METAL',  log:[0.1,1.5], ticks:[0.1,0.3,0.6,1,1.5]},
+    dpsm:{name:'DPS/METAL', log:[0.02,2],  ticks:[0.02,0.1,0.5,2]}}});
+
+const AA_RESIZE=makeSpaceChart({
+  frame:'frameAA',canvas:'spaceAA',title:'spaceTitleAA',count:'uCountAA',hint:'dragHintAA',
+  zoom:'B',label:'Ground anti-air space',noun:'ground AA units',titans:false,
+  pick:u=>u.c==='aa',
+  axes:{
+    spd :{name:'SPEED',     lin:20,        ticks:[0,5,10,15,20]},
+    rng :{name:'RANGE',     lin:250,       ticks:[0,50,100,150,250]},
+    idx :{name:'POWER',     log:[0.02,3],  ticks:[0.02,0.1,0.5,3]},
+    hpm :{name:'HP/METAL',  log:[0.1,6],   ticks:[0.1,0.5,1,2,6]},
+    dpsm:{name:'DPS/METAL', log:[0.05,2],  ticks:[0.05,0.2,0.5,2]}}});
 
 /* ---- master page switch ---- */
 (function(){
@@ -1379,7 +1436,7 @@ const UA=[
     document.querySelectorAll('[data-page]').forEach(o=>
       o.setAttribute('aria-pressed',String(o.dataset.page===p)));
     /* a hidden canvas measures zero, so force a re-measure once it is shown */
-    if(p==='air'&&window.__airResize) window.__airResize();
+    if(p==='air'){ if(AIR_RESIZE) AIR_RESIZE(); if(AA_RESIZE) AA_RESIZE(); }
     window.scrollTo(0,0);
   }));
 })();
