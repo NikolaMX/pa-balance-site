@@ -1065,7 +1065,7 @@ const FACA=[
  ['support_platform','Angel','T2','hold','<b>Anti-air / anti-orbital support platform.</b> 4000 metal, 1200 hp, speed 40. <b>400 damage at rof 5 = 2000 dps</b> at r160, air and orbital only. Second tool is a r120 utility beam.'],
  ['titan_air','Zeus','T2','hold','<b>Flying fortress.</b> 30000 metal, 12000 hp, all-layer 825 dps at r100, r50 splash, <b>5000 death PBAOE</b>.']]},
 
-{f:'mla',name:'MLA — Ground anti-air',sub:'6 units · mobile + static',
+{f:'mla',name:'MLA — Ground anti-air',sub:'7 units · mobile + static',
  doc:'<b>A persistent attrition brake on air control, not a wall.</b>',
  rows:[
  ['bot_aa','Stinger','T1','hold','<b>Committed fab-guard.</b> Main is <b>30 damage × 2 pods at rof 0.5 = 30 dps</b>, r75, velocity 120, 110 metal, 55 hp, speed 18, and already carries <span class="inline">firing_move_speed_multiplier</span> 0.45. No stat change proposed.'],
@@ -1073,7 +1073,8 @@ const FACA=[
  ['attack_vehicle','Stryker','T1','rework','<b>Incidental AA.</b> Only MLA vehicle that hits air. <b>55 → 95 metal</b> and <b>60 → 125 hp</b> — a substantially different unit. Ballistic at velocity 140 zones Hornet and Wyrm reliably and <b>whiffs fast fighters</b>. 30 dps, r80 → 90.'],
  ['air_defense','Galata Turret','T1','rework','<b>Reliable wall.</b> Single-target workhorse and durable deterrent. <b>2 × 50 per volley at rof 1</b> (100 dps, was 25 @ rof 4), <b>1000 → ~1200 hp</b>, r150, velocity ~150, 225 metal. Kills a bomber in ~1 s, a fighter in ~1.3 s.'],
  ['tank_flak','Storm','T2','rework','<b>Mobile anti-clumped-air flak.</b> Turret gains yaw so all 360° use the full r100. <b>400 → 800 hp</b>, ballistic at velocity ~150. As built: <b>200 direct + 100 splash r10 at rof 3</b>, fired continuously with no clip and no energy cost — <b>600 direct + 300 splash dps</b>. This supersedes the tracker figure of 120 direct + 60 splash per volley. Air only, so it is escort-dependent.'],
- ['air_defense_adv','Flak Cannon','T2','tweak','<b>Static durable anchor flak.</b> Main is <b>4 × 40 damage + 40 splash r20 at rof 1.2</b>, r120, 900 metal, 2000 hp. Proposed: <b>2000 → 3000 hp</b> and <b>160 → 200 direct per volley</b>, splash radius 20 → 17.5. The r120 hole is what standoff air exploits.']]},
+ ['air_defense_adv','Flak Cannon','T2','tweak','<b>Static durable anchor flak.</b> Main is <b>4 × 40 damage + 40 splash r20 at rof 1.2</b>, r120, 900 metal, 2000 hp. Proposed: <b>2000 → 3000 hp</b> and <b>160 → 200 direct per volley</b>, splash radius 20 → 17.5. The r120 hole is what standoff air exploits.'],
+ ['bot_sniper','Gil-E','T2','tweak','<b>Anti-standoff and point defence.</b> The <b>only ground unit that out-ranges a Hornet</b> — r200 → <b>220</b> against its r190, and 600 damage roughly one-shots its 600 hp. Secondary beam intercepts missiles and orbital. 800 metal, 150 hp, speed 12 → <b>14</b> with <b>half speed while firing</b>. Useless against swarms — 600 into a 130 hp fighter is 78% overkill.']]},
 
 {f:'leg',name:'Legion — Air Factory',sub:'12 units · T1 + T2',
  doc:'<b>No role pass yet — shipped numbers only.</b>',
@@ -1136,6 +1137,7 @@ const CAPA=[
  ['air_defense','Galata Turret','mla','MLA AA','T1','Durable single-target wall','Forces a T2 commitment instead of blocking outright','proj'],
  ['tank_flak','Storm','mla','MLA AA','T2','Mobile r100 no-fly bubble','Chips Kestrel swarms; does nothing to a Wyrm','proj'],
  ['air_defense_adv','Flak Cannon','mla','MLA AA','T2','Static anchor that survives a Kestrel commit','Its r120 hole is what standoff air exploits','proj'],
+ ['bot_sniper','Gil-E','mla','MLA AA','T2','Reaches r220, past every AA turret and past Hornet','The only ground answer to a standoff bomber; overkills anything smaller','proj'],
  ['l_fighter','Scythe','leg','Legion air','T1','Air-to-air at r107.5','Longest T1 fighter range in either faction','est'],
  ['l_bomber','Dauntless','leg','Legion air','T1','250 + 150 splash per bomb at rof 2.2','Heavier single bomb than Bumblebee, less carpet','est'],
  ['l_raider','Marauder','leg','Legion air','T1','40 hp harasser at speed 90','Dies to anything that shoots air','est'],
@@ -1203,6 +1205,8 @@ const UA=[
    p:{hpm:5.333,idx:2.370}},
  {k:'tank_flak',n:'Storm',f:'mla',c:'aa',t:2,spd:10,rng:100,hpm:0.533,dpsm:0.080,idx:0.043,
    p:{hpm:1.067,dpsm:0.240,idx:0.256}},
+ {k:'bot_sniper',n:'Gil-E',f:'mla',c:'aa',t:2,spd:12,rng:200,hpm:0.188,dpsm:0.150,idx:0.028,
+   p:{spd:14,rng:220}},
  {k:'air_defense_adv',n:'Flak Cannon',f:'mla',c:'aa',t:2,spd:0,rng:120,hpm:2.222,dpsm:0.213,idx:0.474,
    p:{hpm:3.333,dpsm:0.267,idx:0.889}},
  {k:'l_bot_aa',n:'Patriot',f:'leg',c:'aa',t:1,spd:15,rng:100,hpm:1.000,dpsm:1.200,idx:1.200,p:{spd:16}},
